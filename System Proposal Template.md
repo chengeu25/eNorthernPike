@@ -3,11 +3,6 @@
 ## Table of Content
 
 1. System Request
-   - **Project Sponsors:** Cheng Eu Sun, Garret Van Dyke, Caleb Rice, Matthew Merlo 
-   - **Business Requirements**: Cheng Eu
-   - **Business Need:** Matthew Merlo
-   - **Business Value:** Caleb Rice
-   - **Special Issues and Constraints:** Garret Van Dyke
 2. Work Plan
 3. Feasibility Analysis
    1. Technical Feasibility
@@ -38,15 +33,11 @@
 
 > *Reference Chapter 1*
 
-**Project Sponsor:** Carmella Herrera, General Manager, Client Services Business Unit
-
-**Business Need:** This project has been initiated . . .
-
-**Business Requirements:** Using this system from our . . .
-
-**Business Value:** The Client Services business unit . . .
-
-**Special Issues or Constraints:** The capabilities described . . .
+- **Project Sponsors:** Cheng Eu Sun, Garret Van Dyke, Caleb Rice, Matthew Merlo 
+- **Business Requirements**: Cheng Eu
+- **Business Need:** Matthew Merlo
+- **Business Value:** Caleb Rice
+- **Special Issues and Constraints:** Garret Van Dyke
 
 ## 2. Work plan
 > The original work plan revised after having completed the analysis phase.
