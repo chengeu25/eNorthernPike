@@ -3,6 +3,7 @@
 ## Table of Content
 
 1. System Request
+   - **Project Sponsors:** Cheng Eu Sun, Garret Van Dyke, Caleb Rice, Matthew Merlo 
 2. Work Plan
 3. Feasibility Analysis
    1. Technical Feasibility
@@ -137,22 +138,22 @@ sequenceDiagram
 >   2. Condition 2
 >   3. ......
 
-| Normal Course: | Information for Steps |
-|---|---|
-|1.0 Finalize Parts Request||
-|1. Parts room clerk opens the parts . . . | <--- Parts Request record  |
-|2. Parts room clerk verifies . . . |<--- Shop Work Order Record|
+| Normal Course:                            | Information for Steps       |
+| ----------------------------------------- | --------------------------- |
+| 1.0 Finalize Parts Request                |                             |
+| 1. Parts room clerk opens the parts . . . | <--- Parts Request record   |
+| 2. Parts room clerk verifies . . .        | <--- Shop Work Order Record |
 
 > __Postconditions__ :
 >   1. Condition 1
 >   2. Condition 2
 >   3. ......
 
-|Summary Inputs|Source|Summary Outputs| Destination|
-|---|---|---|---|
-|Final parts verification|Parts room clerk|Parts request record|Parts room clerk|
-|Date/time completion|Parts room clerk|Shop work order record|Shop work order datastore|
-|||Work Order ready notice|Technician|
+| Summary Inputs           | Source           | Summary Outputs         | Destination               |
+| ------------------------ | ---------------- | ----------------------- | ------------------------- |
+| Final parts verification | Parts room clerk | Parts request record    | Parts room clerk          |
+| Date/time completion     | Parts room clerk | Shop work order record  | Shop work order datastore |
+|                          |                  | Work Order ready notice | Technician                |
  
 ### 5.3 Process Model (Data Flow Diagram)
 > A set of process models and descriptions for the to‐be system. This may include process models of the current as‐is system that will be replaced.
