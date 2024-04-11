@@ -1,6 +1,6 @@
 # System Request Document
 
-## Table of Content
+## Table of Contents
 
 1. System Request
 2. Work Plan
@@ -36,7 +36,7 @@
 - **Project Sponsors:** Cheng Eu Sun, Garret Van Dyke, Caleb Rice, Matthew Merlo 
 - **Business Requirements**: Cheng Eu
 - **Business Need:** Matthew Merlo
-- **Business Value:** Caleb Rice
+- **Business Value:** Replacing the existing course registration system with a more modern, user-friendly system will provide much value to any university that chooses to use our system. With the information about what classes they need and when they are offered as well as the ability to create an 8-semester plan right at students' fingertips, there will be much fewer confusions that faculty will need to resolve. This will greatly streamline advising. There will also be much less of a need to accomodate students who fail to complete the right courses to earn their degree, as it will be much easier for students to avoid this scenario. Finally, the ease of getting into the right courses and confidence that a student knows what they need to do to graduate can have a major effect on their opinion of the college, so this will help universities retain students and gain more positive feedback in general.
 - **Special Issues and Constraints:** Garret Van Dyke
 
 ## 2. Work plan
