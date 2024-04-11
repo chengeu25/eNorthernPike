@@ -4,6 +4,10 @@
 
 1. System Request
    - **Project Sponsors:** Cheng Eu Sun, Garret Van Dyke, Caleb Rice, Matthew Merlo 
+   - **Business Requirements**: Cheng Eu
+   - **Business Need:** Matthew Merlo
+   - **Business Value:** Caleb Rice
+   - **Special Issues and Constraints:** Garret Van Dyke
 2. Work Plan
 3. Feasibility Analysis
    1. Technical Feasibility
