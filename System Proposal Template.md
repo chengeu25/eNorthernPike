@@ -90,7 +90,7 @@ There is a couple of issues in terms of organizational feasibilites, however the
 2. Course Registration
 
    - Intuitive interface for course search, selection, and registration.
-   - Real-time course availability status displayed during selection.
+   - Real-time course availability/offerings status displayed during selection.
 
 3. Degree Progress Tracking
 
@@ -99,7 +99,7 @@ There is a couple of issues in terms of organizational feasibilites, however the
 
 4. Personalized Recommendations
 
-   - Algorithm-based course recommendations based on academic history and preferences.
+   - Algorithm-based course recommendations based on academic history, preferences, and prerequisites.
    - Option to save and manage favorite courses.
 
 5. Reporting and Analytics
@@ -107,6 +107,14 @@ There is a couple of issues in terms of organizational feasibilites, however the
    - Generate reports on course registration, student progress, and system usage.
    - Analytics dashboard for monitoring system performance and user engagement.
 
+6. Course Reviews
+
+   - Comments on the class by previous class takers or reviews of the professor.
+   - Past course reviews that could help tailor electives to be taken.
+
+7. Course Search
+
+   - Improved ability for course searching by name.
 
 ### 4.2 Nonfunctional Requirements:
 
