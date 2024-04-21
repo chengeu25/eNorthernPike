@@ -83,6 +83,31 @@ There is a couple of issues in terms of organizational feasibilites, however the
 
 ### 4.1 Functional Requirements:
 
+1. User Authentication
+   - Secure login and registration for students, faculty, and staff.
+   - Role-based access control to ensure appropriate access levels.
+
+2. Course Registration
+
+   - Intuitive interface for course search, selection, and registration.
+   - Real-time course availability status displayed during selection.
+
+3. Degree Progress Tracking
+
+   - Integration with academic records to track degree requirements and progress.
+   - Visual representation of completed and remaining courses.
+
+4. Personalized Recommendations
+
+   - Algorithm-based course recommendations based on academic history and preferences.
+   - Option to save and manage favorite courses.
+
+5. Reporting and Analytics
+
+   - Generate reports on course registration, student progress, and system usage.
+   - Analytics dashboard for monitoring system performance and user engagement.
+
+
 ### 4.2 Nonfunctional Requirements:
 
 1. **Operational**
