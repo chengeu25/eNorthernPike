@@ -168,6 +168,10 @@ sequenceDiagram
  
 ### 5.3 Process Model (Data Flow Diagram)
 > A set of process models and descriptions for the to‐be system. This may include process models of the current as‐is system that will be replaced.
+> Caleb - 1 and 8
+> Matthew - 2 and 6
+> Cheng Eu - 4 and 5
+> Garret - 3 and 7
 
 Level 1:
 ```mermaid
