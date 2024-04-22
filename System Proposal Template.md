@@ -183,23 +183,23 @@ a2[Faculty]
 3(3\nView Program Requirements)
 4(4\nView/Edit\nRegistration Plan)
 5(5\nGet What If Requirements)
-7(7\nView Course\nOfferings)
-8(8\nLogin)
-10(10\nUpdate Student's\nProgram)
+6(6\nView Course\nOfferings)
+7(7\nLogin)
+8(8\nUpdate Student's\nProgram)
 
-a1 --Enter info--> 8 --Check with database--> d1 --Does login exist?--> 8
-a2 --Enter info--> 8
-8 --Success/Fail --> a1
-8 --Success/Fail --> a2
+a1 --Enter info--> 7 --Check with database--> d1 --Does login exist?--> 7
+a2 --Enter info--> 7
+7 --Success/Fail --> a1
+7 --Success/Fail --> a2
 a1 --Go to requirements page--> 3
 d2 --Send requirements--> 3
 a1 --Go to plan page--> 4 --Update database--> d4
 d4 --Read courses-->4
 3 --Push updates to database--> d2 --Send requirements to display--> 3 --Display to student--> a1
-a1 --Go to offerings page--> 7 --Request offerings--> d3 --Send offerings to display--> 7 --Display to student--> a1
+a1 --Go to offerings page--> 6 --Request offerings--> d3 --Send offerings to display--> 6 --Display to student--> a1
 a2 --Submit update request--> 1 --Update in database-->d2
 a2 --Submit update request--> 2 --Update in database-->d3
-a2 --Confirm update-->10--Update database-->d1
+a2 --Confirm update-->8--Update database-->d1
 a1--Request What-If and input new requirements-->5--Fetch requirements from database-->d2--Send new requirements-->5--Display to student-->a1
 ```
 
