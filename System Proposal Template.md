@@ -87,9 +87,9 @@ There is a couple of issues in terms of organizational feasibilites, however the
    - Secure login and registration for students, faculty, and staff.
    - Role-based access control to ensure appropriate access levels.
 
-2. Course Registration
+2. Course Planning
 
-   - Intuitive interface for course search, selection, and registration.
+   - Intuitive interface for course search and planning.
    - Real-time course availability/offerings status displayed during selection.
 
 3. Degree Progress Tracking
@@ -97,22 +97,12 @@ There is a couple of issues in terms of organizational feasibilites, however the
    - Integration with academic records to track degree requirements and progress.
    - Visual representation of completed and remaining courses.
 
-4. Personalized Recommendations
-
-   - Algorithm-based course recommendations based on academic history, preferences, and prerequisites.
-   - Option to save and manage favorite courses.
-
-5. Reporting and Analytics
+4. Reporting and Analytics
 
    - Generate reports on course registration, student progress, and system usage.
    - Analytics dashboard for monitoring system performance and user engagement.
 
-6. Course Reviews
-
-   - Comments on the class by previous class takers or reviews of the professor.
-   - Past course reviews that could help tailor electives to be taken.
-
-7. Course Search
+5. Course Search
 
    - Improved ability for course searching by name.
 
