@@ -1,5 +1,10 @@
 # System Request Document
 
+> Matthew - Gantt Chart
+> Caleb - Data Model
+> Garret - Executive Summary/Sequence Diagram
+> Cheng Eu - Structure Chart
+
 ## Table of Contents
 
 1. System Request
