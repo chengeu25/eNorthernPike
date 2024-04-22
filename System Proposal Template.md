@@ -182,7 +182,7 @@ a2[Faculty]
 2(2\nUpdate Course Offerings)
 3(3\nView Program Requirements)
 4(4\nView/Edit\nRegistration Plan)
-5(5\nRequest Change\nof Program)
+5(5\nGet What If Requirements)
 7(7\nView Course\nOfferings)
 8(8\nLogin)
 10(10\nUpdate Student's\nProgram)
@@ -195,12 +195,12 @@ a1 --Go to requirements page--> 3
 d2 --Send requirements--> 3
 a1 --Go to plan page--> 4 --Update database--> d4
 d4 --Read courses-->4
-a1 --Fill out form--> 5 --Send request to relevant faculty member--> a2
 3 --Push updates to database--> d2 --Send requirements to display--> 3 --Display to student--> a1
 a1 --Go to offerings page--> 7 --Request offerings--> d3 --Send offerings to display--> 7 --Display to student--> a1
 a2 --Submit update request--> 1 --Update in database-->d2
 a2 --Submit update request--> 2 --Update in database-->d3
 a2 --Confirm update-->10--Update database-->d1
+a1--Request What-If and input new requirements-->5--Fetch requirements from database-->d2--Send new requirements-->5--Display to student-->a1
 ```
 
 ### 5.4 Data Model (Entity Relationship Diagram)
