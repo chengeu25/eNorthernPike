@@ -169,6 +169,40 @@ sequenceDiagram
 ### 5.3 Process Model (Data Flow Diagram)
 > A set of process models and descriptions for the to‐be system. This may include process models of the current as‐is system that will be replaced.
 
+Level 1:
+```mermaid
+flowchart TD
+d1[[D1: Student/Faculty Login/Program Database]]
+d2[[D2: Program Requirements Database]]
+d3[[D3: Course Offerings Database]]
+d4[[D4: Course Plan Database]]
+a1[Student]
+a2[Faculty]
+1(1\nUpdate Program Requirements)
+2(2\nUpdate Course Offerings)
+3(3\nView Program Requirements)
+4(4\nView/Edit\nRegistration Plan)
+5(5\nRequest Change\nof Program)
+7(7\nView Course\nOfferings)
+8(8\nLogin)
+10(10\nUpdate Student's\nProgram)
+
+a1 --Enter info--> 8 --Check with database--> d1 --Does login exist?--> 8
+a2 --Enter info--> 8
+8 --Success/Fail --> a1
+8 --Success/Fail --> a2
+a1 --Go to requirements page--> 3
+d2 --Send requirements--> 3
+a1 --Go to plan page--> 4 --Update database--> d4
+d4 --Read courses-->4
+a1 --Fill out form--> 5 --Send request to relevant faculty member--> a2
+3 --Push updates to database--> d2 --Send requirements to display--> 3 --Display to student--> a1
+a1 --Go to offerings page--> 7 --Request offerings--> d3 --Send offerings to display--> 7 --Display to student--> a1
+a2 --Submit update request--> 1 --Update in database-->d2
+a2 --Submit update request--> 2 --Update in database-->d3
+a2 --Confirm update-->10--Update database-->d1
+```
+
 ### 5.4 Data Model (Entity Relationship Diagram)
 > *Reference Chapter 5*
 
