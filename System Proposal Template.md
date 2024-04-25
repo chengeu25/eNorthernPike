@@ -172,7 +172,8 @@ sequenceDiagram
 |                          |                  | Work Order ready notice | Technician                |
  
 ### 5.3 Process Model (Data Flow Diagram)
-> A set of process models and descriptions for the to‐be system. This may include process models of the current as‐is system that will be replaced.
+Provided to the degree of depth necessary for building the system with good programming practices (generally 3-5 levels).
+
 > Caleb - 1 and 8
 > Matthew - 2 and 6
 > Cheng Eu - 4 and 5
@@ -181,6 +182,7 @@ sequenceDiagram
 Level 1:
 ```mermaid
 flowchart TD
+
 d1[[D1: Student/Faculty Login/Program Database]]
 d2[[D2: Program Requirements Database]]
 d3[[D3: Course Offerings Database]]
@@ -210,6 +212,395 @@ a2 --Submit update request--> 1 --Update in database-->d2
 a2 --Submit update request--> 2 --Update in database-->d3
 a2 --Confirm update-->8--Update database-->d1
 a1--Request What-If and input new requirements-->5--Fetch requirements from database-->d2--Send new requirements-->5--Display to student-->a1
+d2--Return current requirements-->1
+1--Request current requirements-->d2
+8--Request student info-->d1
+d1--Return student info-->8
+a2--Add program requirement-->1
+a2--Remove program requirement-->1
+1--Request new requirement info-->a2
+a2--Enter new requirement info-->1
+a2--Confirm new requirement-->1
+1--Request program to change-->a2--Select program to edit-->1
+1--Request list of programs-->d2--Return list of programs-->1
+a2--Confirm selection--> 1
+1--Request fields for adding requirement-->d2
+d2--Return fields for adding requirement-->1
+```
+
+Level 2, Process 1:
+```mermaid
+flowchart LR
+
+f[Faculty]
+d2[[D2: Program Requirements Database]]
+1.1(1.1 \n Current requirements \n display with \n add and remove buttons)
+1.2(1.2 \n Add a \n requirement)
+1.3(1.3 \n Remove a \n requirement)
+1.4(1.4 \n Select program)
+
+1.4--Send program-->1.1
+f --Open edit page--> 1.1
+f --Enters new requirement info --> 1.2
+f --Confirms new requirement--> 1.2
+f --Requests to remove requirement--> 1.3
+1.2 --Updates database-->d2
+1.3 --Updates database-->d2
+d2 --Return current requirements--> 1.1
+1.1 --Request current requirements--> d2
+1.4 --Request program to change--> f --Select program to edit--> 1.4
+1.4 --Request list of programs--> d2 --Return list of programs --> 1.4
+1.4 --Move on to next screen--> 1.1
+f --Confirm program selection--> 1.4
+```
+
+Level 3, Process 1.1:
+```mermaid
+flowchart TD 
+
+f[Faculty]
+d2[[D2: Program Requirements Database]]
+1.2(1.2 \n Add a \n requirement)
+1.3(1.3 \n Remove a \n requirement)
+1.1.1(1.1.1 \n Fetch current requirements)
+1.1.2(1.1.2 \n List current \n requirements in table)
+1.1.3(1.1.3 \n Add an \n add button)
+1.1.4(1.1.4 \n Add delete \n buttons to each \n table entry)
+1.1.5(1.1.5 \n Build page container)
+1.1.6(1.1.6 \n Build webpage)
+1.4(1.4 \n Select program)
+
+1.4 --Request program--> f
+f --Select program--> 1.4
+f --Confirm program selection--> 1.4
+1.4 --Send program-->1.1.6
+1.1.6 --Fetches container--> 1.1.5 --Display --> 1.1.6
+1.1.6 --Builds table--> 1.1.2 --Display--> 1.1.6
+1.1.2 --Adds add button--> 1.1.3 --Add to table--> 1.1.2
+1.1.2 --Adds delete buttons--> 1.1.4 --Add to table--> 1.1.2
+1.1.2 --Request current requirements--> 1.1.1 --Add to table--> 1.1.2
+1.1.1 --Request requirements from database--> d2 --Return requirements--> 1.1.1
+f --Clicks the add button--> 1.2
+f --Clicks a delete button--> 1.3
+1.1.6 --Sends program--> 1.1.2
+1.2 --Request needed fields--> d2
+d2 --Return needed fields--> 1.2
+```
+
+Level 4, Process 1.1.1
+```mermaid
+flowchart TD
+
+1.1.2(1.1.2 \n List current \n requirements in table)
+d2[D2: Program Requirements Database]
+1.1.1.1(1.1.1.1 \n Request current requirements)
+1.1.1.2(1.1.1.2 \n Return current requirements)
+
+1.1.2 --Request current requirements--> 1.1.1.1
+1.1.1.1 --Query database for all requirements--> d2
+d2 --Return requirements --> 1.1.1.2
+1.1.1.2 --Send to table builder function--> 1.1.2
+```
+
+Level 4, Process 1.1.2
+```mermaid
+flowchart TD
+
+1.1.6(1.1.6 \n Build webpage)
+1.1.4(1.1.4 \n Add delete \n buttons to each \n table entry)
+1.1.3(1.1.3 \n Add an \n add button)
+1.1.1(1.1.1 \n Fetch current requirements)
+1.1.2.1(1.1.2.1 \n Build row of table)
+1.1.2.2(1.1.2.2 \n Build cell of table)
+1.1.2.3(1.1.2.3 \n Fetch data to \n populate table)
+1.1.2.4(1.1.2.4 \n Render table)
+
+1.1.6 --Sends selected program--> 1.1.2.3
+1.1.6 --Request to build table--> 1.1.2.3
+1.1.2.3 --Request requirements for selected program--> 1.1.1
+1.1.2.3 --Iterate through rows--> 1.1.2.1
+1.1.2.1 --For each row, iterate through cells--> 1.1.2.2
+1.1.2.2 --Display--> 1.1.2.1
+1.1.2.1 --Request delete cell--> 1.1.4
+1.1.4 --Add delete cell--> 1.1.2.1
+1.1.2.1 --Display--> 1.1.2.4
+1.1.2.4 --Request add button --> 1.1.3
+1.1.3 --Display--> 1.1.2.4
+1.1.2.4 --Display--> 1.1.6
+1.1.1 --Return requirements--> 1.1.2.3
+```
+
+Level 5, Process 1.1.2.1
+```mermaid
+flowchart TD
+
+1.1.2.3(1.1.2.3 \n Fetch data to \n populate table)
+1.1.4(1.1.4 \n Add delete buttons to each table entry)
+1.1.2.2(1.1.2.2 \n Build cell of table)
+1.1.2.4(1.1.2.4 \n Render table)
+1.1.2.1.1(1.1.2.1.1 \n Request row \n of dataset)
+1.1.2.1.2(1.1.2.1.2 \n Wrap in table row)
+
+1.1.2.1.1 --For each characteristic--> 1.1.2.2
+1.1.2.2 --Wrap in cell--> 1.1.2.1.1
+1.1.2.1.1 --Request delete button--> 1.1.4
+1.1.4 --Send delete button cell--> 1.1.2.1.1
+1.1.2.1.1 --Wrap in row--> 1.1.2.1.2
+1.1.2.3 --Send row--> 1.1.2.1.1
+1.1.2.1.1 --Request row--> 1.1.2.3
+1.1.2.1.2 --Send to table--> 1.1.2.4
+```
+
+Level 5, Process 1.1.2.2
+```mermaid
+flowchart TD
+
+1.1.2.1(1.1.2.1 \n Build row of table)
+1.1.2.2.1(1.1.2.2.1 \n Fetch cell data)
+1.1.2.2.2(1.1.2.2.2 \n Wrap in cell component)
+
+1.1.2.1 --For each cell, send data--> 1.1.2.2.1
+1.1.2.2.1 --Wrap in cell component--> 1.1.2.2.2
+1.1.2.2.2 --Send back to wrap in row--> 1.1.2.1
+```
+
+Level 5, Process 1.1.2.3
+```mermaid
+flowchart TD
+
+1.1.1(1.1.1 \n Fetch current requirements)
+1.1.6(1.1.6 \n Build webpage)
+1.1.2.1(1.1.2.1 \n Build row of table)
+1.1.2.3.1(1.1.2.3.1 \n Get and organize data)
+1.1.2.3.2(1.1.2.3.2 \n Send data to table)
+
+1.1.2.3.1 --Request requrements--> 1.1.1
+1.1.1 --Return requirements--> 1.1.2.3.1
+1.1.6 --Sends selected program--> 1.1.2.3.1
+1.1.6 --Request to build table--> 1.1.2.3.1
+1.1.2.3.1 --Organizes data by row--> 1.1.2.3.2
+1.1.2.3.2 --Iterate through rows--> 1.1.2.1
+```
+
+Level 5, Process 1.1.2.4
+```mermaid
+flowchart TD
+
+1.1.2.1(1.1.2.1 \n Build row of table)
+1.1.3(1.1.3 \n Add an \n add button)
+1.1.6(1.1.6 \n Build webpage)
+1.1.2.4.1(1.1.2.4.1 \n Fetch rows)
+1.1.2.4.2(1.1.2.4.2 \n Wrap in table)
+1.1.2.4.3(1.1.2.4.3 \n Wrap in overall container)
+
+1.1.2.1 --Send rows--> 1.1.2.4.1
+1.1.2.4.1 --Arrange sequentially and wrap in table--> 1.1.2.4.2
+1.1.2.4.2 --Send to container--> 1.1.2.4.3
+1.1.2.4.3 --Request add button--> 1.1.3
+1.1.3 --Display add button--> 1.1.2.4.3
+1.1.2.4.3 --Send to overall webpage --> 1.1.6
+```
+
+Level 4, Process 1.1.6:
+```mermaid
+flowchart TD
+
+1.4(1.4 \n Select program)
+1.1.5(1.1.5 \n Build page container)
+1.1.2(1.1.2 \n List current \n requirements in table)
+1.1.6.1(1.1.6.1 \n Wrap page in container)
+1.1.6.2(1.1.6.2 \n Fetch table)
+1.1.6.3(1.1.6.3 \n Pass along selected program)
+1.1.6.4(1.1.6.4 \n Display selected program)
+
+1.4 --Send program--> 1.1.6.3 --Send program--> 1.1.2
+1.1.6.3 --Display--> 1.1.6.4
+1.1.6.2 --Fetch table--> 1.1.2 --Return table--> 1.1.6.2
+1.1.6.2 --Display--> 1.1.6.1
+1.1.6.4 --Display--> 1.1.6.1
+1.1.5 --Wrap in container--> 1.1.6.1
+1.1.6.1 --Requests container--> 1.1.5
+
+```
+
+Level 3, Process 1.2:
+```mermaid
+flowchart TD
+
+f[Faculty]
+d2[[D2: Program Requirements Database]]
+1.2.1(1.2.1 \n Update \n database)
+1.2.2(1.2.2 \n Display \n input fields)
+
+f --Enters new requirement info --> 1.2.2
+f --Confirms new requirement--> 1.2.2
+1.2.2 --Request input--> f
+1.2.2 --Send new requirement info --> 1.2.1
+1.2.1 --Update database --> d2
+1.2.2 --Request needed fields--> d2
+d2 --Return needed fields --> 1.2.2
+```
+
+Level 4, Process 1.2.2:
+```mermaid
+flowchart TD
+
+f[Faculty]
+d2[[D2: Program Requirements Database]]
+1.2.2.1(1.2.2.1 \n Get list of needed fields)
+1.2.2.2(1.2.2.2 \n Display inputs for all needed fields)
+1.2.2.3(1.2.2.3 \n Display confirm button)
+1.2.2.4(1.2.2.4 \n Confirm add)
+1.2.2.5(1.2.2.5 \n Unmount container)
+1.2.2.6(1.2.2.6 \n Wrap in conatiner and render)
+1.2.1(1.2.1 \n Update \n database)
+
+f --Confirms new requirement--> 1.2.2.3
+f --Enters new requirement info--> 1.2.2.2
+1.2.2.1 --Send list of fields--> 1.2.2.2
+1.2.2.2 --Send new requirement info on confirm--> 1.2.2.4
+1.2.2.3 --Click button--> 1.2.2.4
+1.2.2.4 --Send new requirement info--> 1.2.1
+1.2.2.2 --Wrap in container--> 1.2.2.6
+1.2.2.3 --Wrap in container--> 1.2.2.6
+1.2.2.4 --Unmount add fields on confirm--> 1.2.2.5
+1.2.2.1 --Query database--> d2
+d2 --Send list of fields--> 1.2.2.1
+```
+
+Level 3, Process 1.3:
+```mermaid
+flowchart TD
+
+f[Faculty]
+d2[[D2: Program Requirements Database]]
+1.3.1(1.3.1 \n Get requirement \n to remove)
+1.3.2(1.3.2 \n Remove requirement \n from database)
+
+f --Clicks remove button on requirement--> 1.3.1
+1.3.1 --Send to database manager program--> 1.3.2
+1.3.2 --Update database--> d2
+```
+
+Level 3, Process 1.4:
+```mermaid
+flowchart TD
+
+f[Faculty]
+1.1(1.1 \n Current requirements display \n with add and remove buttons)
+1.4.1(1.4.1 \n Construct dropdown menu \n of programs)
+1.4.2(1.4.2 \n Create choose button)
+1.4.3(1.4.3 \n Construct choose program screen)
+d2[D2: Program Requirements Database]
+
+1.4.3 --Requests program--> f
+f --Selects program--> 1.4.1
+1.4.3 --Requests program list--> d2
+d2 --Returns program list--> 1.4.3
+1.4.3 --Sends program list to dropdown--> 1.4.1
+1.4.1 --Display dropdown--> 1.4.3
+1.4.3 --Request choose button--> 1.4.2
+1.4.2 --Display--> 1.4.3
+1.4.3 --Move on to next screen--> 1.1
+1.4.3 --Send selected program--> 1.1
+f --Approve selection--> 1.4.2
+1.4.2 --Send selection event--> 1.4.3
+```
+
+Level 4, Process 1.4.3:
+```mermaid
+flowchart TD
+
+f[Faculty]
+d2[[D2: Program Requirements Database]]
+1.4.1(1.4.1 \n Construct dropdown menu \n of programs)
+1.4.2(1.4.2 \n Create choose button)
+1.1(1.1 \n Current requirements display \n with add and remove buttons)
+1.4.3.1(1.4.3.1 \n Load UI components)
+1.4.3.2(1.4.3.2 \n Fetch data and make list)
+1.4.3.3(1.4.3.3 \n Advance screen)
+
+1.4.1 --Display--> 1.4.3.1
+1.4.2 --Display--> 1.4.3.1
+1.4.3.2 --Query database--> d2
+d2 --Send program list--> 1.4.3.2
+1.4.3.2 --Send program list--> 1.4.1
+1.4.1 --Request program list--> 1.4.3.2
+1.4.3.3 --Go to program requirements screen--> 1.1
+1.4.2 --When clicked by user, fire advance event--> 1.4.3.1
+1.4.3.1 --When advance fired, advance screen--> 1.4.3.3
+1.4.3.1 --Request choose button--> 1.4.2
+1.4.3.1 --Request dropdown menu--> 1.4.1
+f --Selects program--> 1.4.1
+f --Confirms selection--> 1.4.2
+```
+
+Level 5, Process 1.4.3.1
+```mermaid
+flowchart TD
+
+1.4.2(1.4.2 \n Create choose button)
+1.4.1(1.4.1 \n Construct dropdown menu of programs)
+1.4.3.1.1(1.4.3.1.1 \n Render container)
+1.4.3.1.2(1.4.3.1.2 \n Render child components)
+1.4.3.3(1.4.3.3 \n Advance screen)
+
+1.4.3.1.2 --Request dropdown menu--> 1.4.1
+1.4.1 --Display--> 1.4.3.1.2
+1.4.3.1.2 --Request choose button--> 1.4.2
+1.4.2 --Display--> 1.4.3.1.2
+1.4.3.1.2 --Wrap in container--> 1.4.3.1.1
+1.4.2 --When clicked by user, fire advance event--> 1.4.3.1.1
+1.4.3.1.1 --Advance screen--> 1.4.3.3
+```
+
+Level 5, Process 1.4.3.2
+```mermaid
+flowchart TD
+
+d2[[D2: Program Requirements Database]]
+1.4.1(1.4.1 \n Construct dropdown menu \n of programs)
+1.4.3.2.1(1.4.3.2.1 \n Fetch program list)
+1.4.3.2.2(1.4.3.2.2 \n Send program list to \n dropdown constructor)
+
+1.4.1 --Request program list--> 1.4.3.2.1
+1.4.3.2.1 --Query database --> d2
+d2 --Send program list--> 1.4.3.2.2
+1.4.3.2.2 --Send program list--> 1.4.1
+```
+
+Level 5, Process 1.4.3.3
+```mermaid
+flowchart LR
+
+1.4.3.1(1.4.3.1 \n Load UI components)
+1.1(1.1 \n Current requirements display \n with add and remove buttons)
+1.4.3.3.1(1.4.3.3.1 \n Remove selection container)
+1.4.3.3.2(1.4.3.3.2 \n Mount edit screen)
+
+1.4.3.1 --Remove--> 1.4.3.3.1
+1.4.3.3.1 --Build next page--> 1.4.3.3.2
+1.4.3.3.2 --Build next page--> 1.1
+```
+
+Level 2, Process 8:
+```mermaid
+flowchart TD
+
+f[Faculty]
+d1[[D1: Student/Faculty Login/Program Database]]
+8.1(8.1 \n Select student)
+8.2(8.2 \n Choose Update \n Program Option)
+8.3(8.3 \n Select Program)
+8.4(8.4 \n Send New Program to Database)
+
+f --Get to main screen select student--> 8.1
+8.1 --Request student info--> d1
+d1 --Display student info and options--> 8.2
+8.2 --Selects a new program--> 8.3
+8.3 --Confirm request--> 8.4
+8.4 --Update database--> d1
+
 ```
 
 ### 5.4 Data Model (Entity Relationship Diagram)
