@@ -181,7 +181,7 @@ Provided to the degree of depth necessary for building the system with good prog
 
 Level 1:
 ```mermaid
-flowchart TD
+flowchart LR
 
 d1[[D1: Student/Faculty Login/Program Database]]
 d2[[D2: Program Requirements Database]]
@@ -198,8 +198,8 @@ a2[Faculty]
 7(7\nLogin)
 8(8\nUpdate Student's\nProgram)
 
-a1 --Enter info--> 7 --Check with database--> d1 --Does login exist?--> 7
-a2 --Enter info--> 7
+a1 --Enter info --> 7 --Check with database--> d1 --Does login exist?--> 7
+a2 --Enter info --> 7
 7 --Success/Fail --> a1
 7 --Success/Fail --> a2
 a1 --Go to requirements page--> 3
@@ -210,22 +210,31 @@ d4 --Read courses-->4
 a1 --Go to offerings page--> 6 --Request offerings--> d3 --Send offerings to display--> 6 --Display to student--> a1
 a2 --Submit update request--> 1 --Update in database-->d2
 a2 --Submit update request--> 2 --Update in database-->d3
-a2 --Confirm update-->8--Update database-->d1
+a2 --Confirm update-->8--Add program to database-->d1
+8 --Remove program from database-->d1
+a2 --Select student-->8
+a2 --Select new program--> 8
+8 --Request list of programs--> d2
+d2 --Return list of programs--> 8
 a1--Request What-If and input new requirements-->5--Fetch requirements from database-->d2--Send new requirements-->5--Display to student-->a1
 d2--Return current requirements-->1
 1--Request current requirements-->d2
-8--Request student info-->d1
-d1--Return student info-->8
+8--Request student info -->d1
+d1--Return student info -->8
 a2--Add program requirement-->1
 a2--Remove program requirement-->1
-1--Request new requirement info-->a2
-a2--Enter new requirement info-->1
+1--Request new requirement info -->a2
+a2--Enter new requirement info -->1
 a2--Confirm new requirement-->1
 1--Request program to change-->a2--Select program to edit-->1
 1--Request list of programs-->d2--Return list of programs-->1
 a2--Confirm selection--> 1
 1--Request fields for adding requirement-->d2
 d2--Return fields for adding requirement-->1
+d2--Return list of students that fit search query-->8
+f--Search students-->8
+f--Delete program-->8
+8--Request list of fields-->d1
 ```
 
 Level 2, Process 1:
@@ -589,19 +598,283 @@ flowchart TD
 
 f[Faculty]
 d1[[D1: Student/Faculty Login/Program Database]]
+d2[[D2: Program Requirements Database]]
 8.1(8.1 \n Select student)
-8.2(8.2 \n Choose Update \n Program Option)
-8.3(8.3 \n Select Program)
-8.4(8.4 \n Send New Program to Database)
+8.2(8.2 \n Display program editor page)
+8.3(8.3 \n Add program)
+8.4(8.4 \n Remove program)
+8.5(8.5 \n Send New Program to Database)
 
-f --Get to main screen select student--> 8.1
-8.1 --Request student info--> d1
-d1 --Display student info and options--> 8.2
-8.2 --Selects a new program--> 8.3
-8.3 --Confirm request--> 8.4
-8.4 --Update database--> d1
-
+f --Go to update program page--> 8.1
+f --Select student--> 8.1
+f --Select new program--> 8.2
+f --Confirm update--> 8.2
+f --Search students--> 8.1
+f --Confirm delete--> 8.2
+8.1 --Request student info --> d1
+8.1 --Show program list and dropdown--> 8.2
+d1 --Return student info --> 8.1
+8.1 --Send student info --> 8.2
+8.2 --User selects a program and clicks add--> 8.3
+8.3 --Update database--> 8.5
+8.2 --User clicks delete button on a program--> 8.4
+8.4 --Update database--> 8.5
+8.5 --Add program database--> d1
+8.5 --Remove program from database--> d1
+8.2 --Request list of programs--> d2
+d2 --Return list of programs--> 8.2
+d1 --Return list of students the fit search query--> 8.1
+8.1 --Send student info --> 8.5
+8.1 --Request list of fields--> d1
 ```
+
+Level 3, Process 8.1:
+```mermaid
+flowchart TD
+
+f[Faculty]
+d1[[D1: Studuent/Faculty Login/Program Database]]
+8.2(8.2 \n Display program editor page)
+8.1.1(8.1.1 \n Build student search form)
+8.1.2(8.1.2 \n Search database for student)
+8.1.3(8.1.3 \n Show rest of page)
+8.5(8.5 \n Send new program to database)
+
+f --Search student--> 8.1.1
+8.1.1 --On search, query database--> 8.1.2
+f --Go to page--> 8.1.1
+8.1.2 --Request student info --> d1
+d1 --Return list of students that fit search query--> 8.1.2
+8.1.2 --Send list of students--> 8.1.1
+f --Select student--> 8.1.1
+8.1.1 --When a student is selected, advance screen--> 8.1.3
+8.1.3 --Show program editor and update for correct student--> 8.2
+8.1.3 --Send student info --> 8.2
+8.1.1 --When student selected, send info --> 8.5
+8.1.1 --Request list of fields--> d1
+d1 --Return list of fields--> 8.1.1
+```
+
+Level 4, Process 8.1.1
+```mermaid
+flowchart TD
+
+f[Faculty]
+d1[[D1: Student/Faculty Login/Program Database]]
+8.1.2(8.1.2 \n Search database for student)
+8.1.3(8.1.3 \n Show rest of page)
+8.5(8.5 \n Send new program to database)
+8.1.1.1(8.1.1.1 \n Get list of columns \n from database)
+8.1.1.2(8.1.1.2 \n Add fields for each column)
+8.1.1.3(8.1.1.3 \n Add selectable list of students)
+
+f --Update input field--> 8.1.1.2
+f --Go to page--> 8.1.1.2
+8.1.1.2 --On search, search the database--> 8.1.2
+8.1.2 --Return list of students--> 8.1.1.3
+8.1.1.1 --Request list of columns--> d1
+d1 --Return list of columns--> 8.1.1.1
+8.1.1.2 --Request list of columns--> 8.1.1.1
+8.1.1.1 --Return list of columns--> 8.1.1.2
+f --Select student--> 8.1.1.3
+8.1.1.3 --On select, show/update rest of page--> 8.1.3
+8.1.1.3 --When student selected, make student info \n available to database updater--> 8.5
+8.1.1.2 --Trigger add student list on search--> 8.1.1.3
+```
+
+Level 5, Process 8.1.1.1:
+```mermaid
+flowchart TD
+
+8.1.1.2(8.1.1.2 \n Add fields for each column)
+8.1.1.1.1(8.1.1.1.1 \n Request list of columns)
+d1[[D1: Student/Faculty Login/Program Database]]
+8.1.1.1.2(8.1.1.1.2 \n Receive list of columns)
+
+8.1.1.2 --Request list of columns--> 8.1.1.1.1 --Query database--> d1 --Return list of columns--> 8.1.1.1.2 --Return list of columns--> 8.1.1.2
+```
+
+Level 5, Process 8.1.1.3:
+```mermaid
+flowchart TD
+
+f[Faculty]
+8.1.2(8.1.2 \n Search database for student)
+8.1.3(8.1.3 \n Show rest of page)
+8.5(8.5 \n Send new program to database)
+8.1.1.2(8.1.1.2 \n Add fields for each column)
+8.1.1.3.1(8.1.1.3.1 \n Wrap in container)
+8.1.1.3.2(8.1.1.3.2 \n Display list)
+8.1.1.3.3(8.1.1.3.3 \n Make selectable)
+
+f --Select student--> 8.1.1.3.3
+8.1.2 --Send list of students--> 8.1.1.3.2
+8.1.1.3.2 --Add click handles--> 8.1.1.3.3
+8.1.1.2 --Show student list on search--> 8.1.1.3.1
+8.1.1.3.1 --Request list--> 8.1.1.3.2
+8.1.1.3.2 --Display list--> 8.1.1.3.1
+8.1.1.3.3 --On click--> 8.1.3
+8.1.1.3.3 --On click, make student info \n available to database updater--> 8.5
+```
+
+Level 4, Process 8.1.2:
+```mermaid
+flowchart TD
+
+8.1.1(8.1.1 \n Build student search form)
+d1[[D1: Student/Faculty Login/Program Database]]
+8.1.2.1(8.1.2.1 \n Query database with search term)
+8.1.2.2(8.1.2.2 \n Return students)
+
+8.1.1 --Request list of students that meet search query-->8.1.2.1 --Query database--> d1 --Return students--> 8.1.2.2 --Return students--> 8.1.1
+```
+
+Level 3, Process 8.2:
+```mermaid
+flowchart TD
+
+f[Faculty]
+d2[[D2: Program Requirements Database]]
+8.1(8.1 \n Select student)
+8.3(8.3 \n Add program)
+8.4(8.4 \n Remove program)
+8.2.1(8.2.1 \n Display list of current \n programs for student)
+8.2.2(8.2.2 \n Display program dropdown)
+8.2.4(8.2.4 \n Add delete buttons \n to programs)
+8.2.3(8.2.3 \n Display add button)
+8.2.5(8.2.5 \n Wrap in container)
+
+8.1 --Send student program data--> 8.2.1
+8.1 --Request page--> 8.2.5
+8.2.2 --Request program list--> d2
+d2 --Return program list--> 8.2.2
+8.2.3 --Display in conatiner--> 8.2.5
+8.2.1 --Request delete buttons--> 8.2.4
+8.2.4 --Add to list--> 8.2.1
+f --Clicks delete button--> 8.2.4
+8.2.4 --On click, delete program--> 8.4
+8.2.5 --Request program dropdown--> 8.2.2
+8.2.2 --Display in container--> 8.2.5
+8.2.1 --Display in container--> 8.2.5
+8.2.5 --Request add button--> 8.2.3
+f --Clicks add button--> 8.2.3
+8.2.3 --On click, add selected program--> 8.3
+f --Selects program in dropdown--> 8.2.2
+```
+
+Level 4, Process 8.2.1:
+```mermaid
+flowchart TD
+
+8.2.4(8.2.4 \n Add delete buttons \n to programs)
+8.1(8.1 \n Select student)
+8.2.5(8.2.5 \n Wrap in container)
+8.2.1.1(8.2.1.1 \n Build row)
+8.2.1.2(8.2.1.2 \n Wrap in table)
+
+8.1 --Iterate through list of programs for student--> 8.2.1.1
+8.2.1.1 --Request delete button--> 8.2.4
+8.2.4 --Display delete button--> 8.2.1.1
+8.2.1.1 --Send to table--> 8.2.1.2
+8.2.1.2 --Send to container--> 8.2.5
+```
+
+Level 4, Process 8.2.2:
+```mermaid
+flowchart TD
+
+f[Faculty]
+d2[[D2: Program Requirements Database]]
+8.2.5(8.2.5 \n Wrap in container)
+8.2.2.1(8.2.2.1 \n Build dropdown)
+8.2.2.2(8.2.2.2 \n Request program \n list from database)
+
+f --Selects program--> 8.2.2.1
+8.2.2.1 --Request list of programs--> 8.2.2.2
+8.2.2.1 --Send to container--> 8.2.5
+8.2.5 --Request program dropdown--> 8.2.2.1
+8.2.2.2 --Request programs from database--> d2
+d2 --Return list of programs--> 8.2.2.2
+8.2.2.2 --Send list of programs--> 8.2.2.1
+```
+
+Level 5, Process 8.2.2.2:
+```mermaid
+flowchart TD
+
+8.2.2.1(8.2.2.1 \n Display program editor page)
+8.2.2.2.1(8.2.2.2.1 \n Request list of programs)
+d2[[D2: Program Requirements Database]]
+8.2.2.2.2(8.2.2.2.2 \n Receive list of programs)
+
+8.2.2.1 --Request list of programs--> 8.2.2.2.1 --Query database--> d2 --Return list of programs--> 8.2.2.2.2 --Return list of programs--> 8.2.2.1
+```
+
+Level 3, Process 8.3:
+```mermaid
+flowchart LR
+
+8.2(8.2 \n Display program editor page)
+8.5(8.5 \n Send new program to database)
+8.3.1(8.3.1 \n Receive program \n from user)
+8.3.2(8.3.2 \n Send program to \n database updater function)
+
+8.2 --Send new program--> 8.3.1 --Send new program--> 8.3.2 --Send new program--> 8.5
+```
+
+Level 3, Process 8.4:
+```mermaid
+flowchart LR
+
+8.2(8.2 \n Display program editor page)
+8.5(8.5 \n Send new program to database)
+8.4.1(8.3.1 \n Receive program to \n remove from user)
+8.4.2(8.3.2 \n Send program to \n database updater function)
+
+8.2 --Send program to remove--> 8.4.1 --Send program to remove--> 8.4.2 --Send program to remove--> 8.5
+```
+
+Level 3, Process 8.5:
+```mermaid
+flowchart LR
+8.1(8.1 \n Select student)
+8.3(8.3 \n Add program)
+8.4(8.4 \n Remove program)
+d1[[D1: Student/Faculty Login/Program Database]]
+8.5.1(8.5.1 \n Add program to database)
+8.5.2(8.5.2 \n Remove program from database)
+8.5.3(8.5.3 \n Send student info \n to appropriate function)
+
+8.3 --Request to add to database--> 8.5.1
+8.5.1 --Run add query--> d1
+8.4 --Request to remove from database--> 8.5.2
+8.5.2 --Run remove query--> d1
+8.1 --Send selected student--> 8.5.3
+8.5.3 --Send student info --> 8.5.1
+8.5.3 --Send student info --> 8.5.2
+8.5.1 --Request student info --> 8.5.3
+8.5.2 --Request student info --> 8.5.3
+```
+
+Level 5, Process 8.5.3
+```mermaid
+flowchart TD
+
+8.5.1(8.5.1 \n Add program to database)
+8.5.2(8.5.2 \n Remove program from database)
+8.1(8.1 \n Select student)
+8.5.3.1(8.5.3.1 \n Store student info)
+8.5.3.2(8.5.3.2 \n Return student info)
+
+8.5.1 --Request student info --> 8.5.3.2
+8.5.2 --Request student info --> 8.5.3.2
+8.5.3.2 --Return student info --> 8.5.1
+8.5.3.2 --Return student info --> 8.5.2
+8.1 --Store here--> 8.5.3.1
+8.5.3.2 --Request stored info --> 8.5.3.1
+8.5.3.1 --Return stored info --> 8.5.3.2
+```
+
 
 ### 5.4 Data Model (Entity Relationship Diagram)
 > *Reference Chapter 5*
