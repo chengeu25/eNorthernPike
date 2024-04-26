@@ -135,41 +135,320 @@ sequenceDiagram
 ### 5.2 Use Cases
 > *Reference Chapter 4*
 
-#### Use Case Name:  Your use case name
+#### Use Case Name:  Edit Program Requirements
 
-> __ID__ :
+> __ID__ : UC-1
 
-> __Priority__ :
+> __Priority__ : High
 
-> __Actor__ :
+> __Actor__ : Faculty
 
-> __Description__ :
+> __Description__ : Faculty use the system to view and edit the requirements for academic programs.
 
-> __Trigger__ :
+> __Trigger__ : Faculty selects the "View/Edit Requirements" tab
 
-> __Type__ :
+> __Type__ : External
 
 > __Preconditions__ :
->   1. Condition 1
->   2. Condition 2
->   3. ......
+>   1. Faculty must be logged into the system.
+>   2. Faculty must have permission to edit programs.
+>   3. Faculty must have selected the "View/Edit Requirements" tab.
 
-| Normal Course:                            | Information for Steps       |
-| ----------------------------------------- | --------------------------- |
-| 1.0 Finalize Parts Request                |                             |
-| 1. Parts room clerk opens the parts . . . | <--- Parts Request record   |
-| 2. Parts room clerk verifies . . .        | <--- Shop Work Order Record |
+| Normal Course:                                                                                                  | Information for Steps                                                      |
+| --------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------- |
+| 1.4 Select program **Number is out of order due to this being missing for a a large part of the analysis phase* |
+| 1. Current requirements display with add and remove buttons                                                     | $\leftarrow$ Current program requirements<br>$\leftarrow$ Selected program |
+| 2. Add a requirement                                                                                            | $\leftarrow$ Selected program                                              |
+| 3. Remove a requirement                                                                                         | $\leftarrow$ Selected program                                              |
 
 > __Postconditions__ :
->   1. Condition 1
->   2. Condition 2
->   3. ......
+>   1. Selected academic program is updated with any added or removed requirements
 
-| Summary Inputs           | Source           | Summary Outputs         | Destination               |
-| ------------------------ | ---------------- | ----------------------- | ------------------------- |
-| Final parts verification | Parts room clerk | Parts request record    | Parts room clerk          |
-| Date/time completion     | Parts room clerk | Shop work order record  | Shop work order datastore |
-|                          |                  | Work Order ready notice | Technician                |
+| Summary Inputs               | Source                        | Summary Outputs          | Destination |
+| ---------------------------- | ----------------------------- | ------------------------ | ----------- |
+| List of current requirements | Program requirements database | New program requirements | Faculty     |
+| Selected program             | Faculty                       |
+
+#### Use Case Name: View Current Requirements (Faculty)
+
+> __ID__ : UC-1.1
+
+> __Priority__ : High
+
+> __Actor__ : Faculty
+
+> __Description__ : Faculty views the requirements for a program with the option to edit the requirements.
+
+> __Trigger__ : Faculty selects a program
+
+> __Type__ : External
+
+> __Preconditions__ :
+>   1. Faculty must be logged into the system.
+>   2. Faculty must have permission to edit programs.
+>   3. Faculty must have selected the "View/Edit Requirements" tab.
+>   4. Faculty must have selected a program to view or edit.
+
+| Normal Course:                            | Information for Steps                                                             |
+| ----------------------------------------- | --------------------------------------------------------------------------------- |
+| 1.1.1. Fetch current requirements         | $\leftarrow$ Selected program                                                     |
+| 2. List current requirements in table     | $\leftarrow$ Selected program <br> $\leftarrow$ Requirements for selected program |
+| 3. Add an add button                      |                                                                                   |
+| 4. Add delete buttons to each table entry |                                                                                   |
+| 5. Build page container                   |                                                                                   |
+| 6. Build webpage                          |                                                                                   |
+
+> __Postconditions__ :
+>   1. Selected academic program is updated with any added or removed requirements
+
+| Summary Inputs       | Source                        | Summary Outputs                    | Destination |
+| -------------------- | ----------------------------- | ---------------------------------- | ----------- |
+| Selected program     | Faculty                       | Interface for editing requirements | Screen      |
+| Program requirements | Program requirements database |
+
+#### Use Case Name: Fetch Current Requirements
+
+> __ID__ : UC-1.1.1
+
+> __Priority__ : High
+
+> __Actor__ : System
+
+> __Description__ : System queries the database to get the requirements for the selected program
+
+> __Trigger__ : Faculty selects a program
+
+> __Type__ : External
+
+> __Preconditions__ :
+>   1. Faculty must be logged into the system.
+>   2. Faculty must have permission to edit programs.
+>   3. Faculty must have selected the "View/Edit Requirements" tab.
+>   4. Faculty must have selected a program to view or edit.
+
+| Normal Course:                                              | Information for Steps             |
+| ----------------------------------------------------------- | --------------------------------- |
+| 1.1.1.1. Query the database to get the current requirements |                                   |
+| 2. Send the requirements to be displayed and edited         | $\leftarrow$ Program requirements |
+
+> __Postconditions__ :
+>   1. Current program requirements are ready to be displayed.
+
+| Summary Inputs       | Source                        | Summary Outputs              | Destination   |
+| -------------------- | ----------------------------- | ---------------------------- | ------------- |
+| Selected program     | Faculty                       | List of program requirements | Process 1.1.2 |
+| Program requirements | Program requirements database |
+
+#### Use Case Name: List current requirements in table
+
+> __ID__ : UC-1.1.2
+
+> __Priority__ : High
+
+> __Actor__ : System
+
+> __Description__ : System takes the list of current requirements for a program and displays it in a table.
+
+> __Trigger__ : The database has been queried for program requirements.
+
+> __Type__ : Internal
+
+> __Preconditions__ :
+>   1. Faculty must be logged into the system.
+>   2. Faculty must have permission to edit programs.
+>   3. Faculty must have selected the "View/Edit Requirements" tab.
+>   4. Faculty must have selected a program to view or edit.
+>   5. The database must be queried and the data must be in a format accessible to the table builder component.
+
+| Normal Course:                          | Information for Steps                      |
+| --------------------------------------- | ------------------------------------------ |
+| 1.1.2.1. Build each row of the table    |                                            |
+| 2. Populate those rows with cells       |                                            |
+| 3. Fetch the data to populate the cells | $\leftarrow$ Selected program requirements |
+| 4. Render the table                     |                                            |
+
+> __Postconditions__ :
+>   1. Current program requirements are displayed in a table.
+
+| Summary Inputs       | Source                        | Summary Outputs               | Destination |
+| -------------------- | ----------------------------- | ----------------------------- | ----------- |
+| Selected program     | Faculty                       | Table of program requirements | Screen      |
+| Program requirements | Program requirements database |
+
+#### Use Case Name: Build row of table
+
+> __ID__ : UC-1.1.2.1
+
+> __Priority__ : High
+
+> __Actor__ : System
+
+> __Description__ : System builds one row of the requirements table.
+
+> __Trigger__ : Table generator begins running.
+
+> __Type__ : Internal
+
+> __Preconditions__ :
+>   1. Faculty must be logged into the system.
+>   2. Faculty must have permission to edit programs.
+>   3. Faculty must have selected the "View/Edit Requirements" tab.
+>   4. Faculty must have selected a program to view or edit.
+>   5. The database must be queried and the data must be in a format accessible to the table builder component.
+>   6. Table generator must be running and requesting rows.
+
+| Normal Course:                    | Information for Steps            |
+| --------------------------------- | -------------------------------- |
+| 1.1.2.1.1. Request row of dataset | $\leftarrow$ One required course |
+| 2. Wrap in a table row            |                                  |
+
+> __Postconditions__ :
+>   1. One row of the requirements table is ready to be displayed.
+
+| Summary Inputs      | Source          | Summary Outputs           | Destination     |
+| ------------------- | --------------- | ------------------------- | --------------- |
+| One required course | Process 1.1.2.3 | Row of requirements table | Process 1.1.2.4 |
+
+#### Use Case Name: Build cell of table
+
+> __ID__ : UC-1.1.2.2
+
+> __Priority__ : High
+
+> __Actor__ : System
+
+> __Description__ : System builds one cell of the requirements table.
+
+> __Trigger__ : Table row generator begins running.
+
+> __Type__ : Internal
+
+> __Preconditions__ :
+>   1. Faculty must be logged into the system.
+>   2. Faculty must have permission to edit programs.
+>   3. Faculty must have selected the "View/Edit Requirements" tab.
+>   4. Faculty must have selected a program to view or edit.
+>   5. The database must be queried and the data must be in a format accessible to the table builder component.
+>   6. Table generator must be running and requesting rows.
+>   7. Row generator must be running and requesting cells.
+
+| Normal Course:                     | Information for Steps                             |
+| ---------------------------------- | ------------------------------------------------- |
+| 1.1.2.2.1. Request cell of dataset | $\leftarrow$ One attribute of one required course |
+| 2. Wrap in a table cell            |                                                   |
+
+> __Postconditions__ :
+>   1. One cell of the requirements table is ready to be displayed.
+
+| Summary Inputs                       | Source          | Summary Outputs            | Destination     |
+| ------------------------------------ | --------------- | -------------------------- | --------------- |
+| One attribute of one required course | Process 1.1.2.1 | Cell of requirements table | Process 1.1.2.1 |
+
+#### Use Case Name: Fetch data to populate table
+
+> __ID__ : UC-1.1.2.3
+
+> __Priority__ : High
+
+> __Actor__ : System
+
+> __Description__ : System fetches data to build the requirements table.
+
+> __Trigger__ : Table row generator begins running.
+
+> __Type__ : Internal
+
+> __Preconditions__ :
+>   1. Faculty must be logged into the system.
+>   2. Faculty must have permission to edit programs.
+>   3. Faculty must have selected the "View/Edit Requirements" tab.
+>   4. Faculty must have selected a program to view or edit.
+>   5. The database must be queried and the data must be in a format accessible to the table builder component.
+>   6. Table generator must be running.
+
+| Normal Course:                   | Information for Steps                  |
+| -------------------------------- | -------------------------------------- |
+| 1.1.2.3.1. Get and organize data | $\leftarrow$ Program requirements data |
+| 2. Send data to table            |                                        |
+
+> __Postconditions__ :
+>   1. The requirements data is ready to be displayed in the table.
+
+| Summary Inputs            | Source        | Summary Outputs             | Destination                     |
+| ------------------------- | ------------- | --------------------------- | ------------------------------- |
+| Program requirements data | Process 1.1.1 | Data for requirements table | Process 1.1.2.1 (several times) |
+
+#### Use Case Name: Render table
+
+> __ID__ : UC-1.1.2.3
+
+> __Priority__ : High
+
+> __Actor__ : System
+
+> __Description__ : System takes table rows and wraps them in a table and an overall container.
+
+> __Trigger__ : Table rows must be generated.
+
+> __Type__ : Internal
+
+> __Preconditions__ :
+>   1. Faculty must be logged into the system.
+>   2. Faculty must have permission to edit programs.
+>   3. Faculty must have selected the "View/Edit Requirements" tab.
+>   4. Faculty must have selected a program to view or edit.
+>   5. The database must be queried and the data must be in a format accessible to the table builder component.
+>   6. Table generator must have generated all cells/rows.
+
+| Normal Course:        | Information for Steps      |
+| --------------------- | -------------------------- |
+| 1.1.2.4.1. Fetch rows | $\leftarrow$ Rows of table |
+| 2. Wrap in table      | $\leftarrow$ Rows of table |
+| 3. Wrap in container  | $\leftarrow$ Table         |
+
+> __Postconditions__ :
+>   1. The requirements data is ready to be displayed in the table.
+
+| Summary Inputs | Source          | Summary Outputs | Destination   |
+| -------------- | --------------- | --------------- | ------------- |
+| Rows of table  | Process 1.1.2.1 | Rendered table  | Process 1.1.6 |
+
+#### Use Case Name: Build requirements editor webpage
+
+> __ID__ : UC-1.1.6
+
+> __Priority__ : High
+
+> __Actor__ : System
+
+> __Description__ : System builds the webpage for the program requirements editor.
+
+> __Trigger__ : Program is selected and requirements table has been generated.
+
+> __Type__ : Internal
+
+> __Preconditions__ :
+>   1. Faculty must be logged into the system.
+>   2. Faculty must have permission to edit programs.
+>   3. Faculty must have selected the "View/Edit Requirements" tab.
+>   4. Faculty must have selected a program to view or edit.
+>   5. The database must be queried and the data must be in a format accessible to the table builder component.
+>   6. Requirements table must be generated.
+
+| Normal Course:                           | Information for Steps                                            |
+| ---------------------------------------- | ---------------------------------------------------------------- |
+| 1.1.6.1. Wrap page in container          | $\leftarrow$ Selected program<br>$\leftarrow$ Requirements table |
+| 2. Fetch table and display in container  | $\leftarrow$ Requirements table                                  |
+| 3. Retrieve selected program             | $\leftarrow$ Selected program                                    |
+| 4. Display selected program in container | $\leftarrow$ Selected program                                    |
+
+> __Postconditions__ :
+>   1. The requirements data is ready to be displayed in the table.
+
+| Summary Inputs             | Source        | Summary Outputs             | Destination |
+| -------------------------- | ------------- | --------------------------- | ----------- |
+| Program requirements table | Process 1.1.2 | Requirements editor webpage | Screen      |
+| Selected program           | Process 1.4   |
  
 ### 5.3 Process Model (Data Flow Diagram)
 Provided to the degree of depth necessary for building the system with good programming practices (generally 3-5 levels).
