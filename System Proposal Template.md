@@ -885,4 +885,71 @@ flowchart TD
 > *Reference Chapter 9*
 
 ## 6. Appendices
-> These contain additional material relevant to the proposal, often used to support the recommended system. This might include results of a questionnaire survey or interviews, industry reports and statistics, etc.
+
+### Research done on the existing system:
+Messiah’s current course registration system is managed by a third party, namely Ellucian, and the registration program is not the only one they provide. After exploring Ellucian’s website, it seems apparent that Messiah uses “Ellucian Banner Student” which provides not only course registration and planning, but also the entire self-service website, which includes financial aid info, holds, transcript forms, transfer forms, and more. Additionally, Ellucian does not appear to offer components of this system separately. By exploring the self-service website myself, it appears very comprehensive and also very intertwined with the course registration pages. There is also a lot of benefit gained by having the course registration system interact with the finance system, transcript generators, and other programs, so to a point this makes sense. However, it also makes our job far more difficult. There are, however, likely at least four possible solutions to this problem.
+
+Firstly, we could expand the scope of our project to include all services currently supplied by Ellucian. The self-service website is perhaps even more poorly designed than the registration system, so there would be a benefit to doing this. However, doing this would dramatically extend the timeline of the project, as it requires a massive amount of additional work. Additionally, storing financial aid data needs even more security than student schedules, which none of us are prepared to implement.
+
+Another possible solution would be to actually scale down the project and interface with the existing system rather than replace it. This would require us to provide a new user interface and logic but use the existing database. There is some evidence that this approach may be possible through the Banner Student API, however it does appear quite limited, and as students we probably wouldn’t be able to get access to it. This would also not save Messiah any money and would actually make it more expensive due to the need to both host our web interface and keep paying Ellucian, so the only business value created would be that of students that decide to stay at Messiah that would not had it not been for our system.
+
+A third possible solution would be to keep the scope of the project as-is. With this approach, Messiah would need to find a new solution for things like financial aid and other components of the self-service system. We could then increase the scope of the project slightly to include components of the website that Messiah cannot find a replacement for. The main disadvantage of this approach is that Messiah has to be willing to do the work to search for a new provider, and due to using multiple partners integration would suffer.
+
+A fourth solution would entail building the new system as planned, just without the ability to register directly from our system. Instead we could include a feature to export a list of course reference numbers to streamline registration with the existing system. This would still allow us to replace the frontend for The View and DegreeWorks. This solution has similar problems as solution 2 in that it requires maintaining and paying for two systems, but may be better in that we aren’t limited by the use of a third-party API. The problem with this is that, once again, integration suffers and faculty may need to input course data both into our system and into the Ellucian system. That being said, with eCarps the Engineering department either already does this or has some way of doing both at once, so it appears feasible that faculty might be willing to do this. With this approach it does not directly replace systems, so business value is limited, though it would still dramatically improve the student experience, which could implicitly provide value.
+
+It does appear that our system would provide value fairly quickly. Messiah already has a domain name (messiah.edu) and as such that cost is covered. The university may need to pay for additional server space to host the database and perhaps hire people to maintain it and keep it secure, however space in the cloud is not that expensive these days, especially compared to student tuition. Messiah likely obtains about $30000 on average per student per year (that value is found by taking full cost of attendance minus institutional scholarships and grants, though it is a very rough estimate), and with the current cost of server space, it’s unlikely that it would cost more than even one student’s tuition. As such, while the setback of a lack of integration will require some thinking about how to move forward with this project, it does not mean the project is completely infeasible or not valuable.
+
+### Results of Interview with Dr. Van Dyke
+What problems have you encountered with the current course registration system/why did you decide to create ecarps for the university?
+
+> There was no way to plan students' full four year schedule so we would end up getting into places where students wouldn’t graduate on time. We used to do it on paper, but then moved it to electronics. It used to be a lot simpler, but since then more flexibility has created more difficulty. The chair wanted this so he could plan how many students will be taking each class every semester.
+
+Have you experienced any difficulties in preparing students for their course registration as an advisor?
+
+> One issue is that eCarps isn’t official, so then students start to rely on it and don’t look at their degree audit and have created issues in the past.
+
+Explain briefly how far you’ve gone in your own course planning system.
+> Students can keep track of a 4 year plan, keep track of prerequisites and total credits and university requirements. Total credits per semester, availability for all engineering courses, nothing with gen eds. Also has a scheduling system where students can plan which section they want for their schedule.
+
+What problems have you encountered when designing your system?
+> Two things to be aware of FERPA, since it contains student records and it is not public information. People's schedules are protected by FERPA meaning that people need to sign in. Advisors can't see schedules unless their students or if there is a reason. Another thing is you probably cannot get access to the banner, someone has to maintain it AKA the chair. In order for this to work someone has to be dedicated to it. Also they are getting rid of Banner so next year it would be really difficult to get tied in.
+
+Do you handle any of the student records/something that is confidential?
+> Yeah, only as the role of IT/the owner, other advisors cannot see anything they don’t have access to.
+
+How easy is it to gain access to all major/minor/concentration information (what classes are required)?
+> The information is there (all in the catalog) not in a convenient form. We would have to talk to IT to get the information from Banner.
+
+How different is the data between The View course schedule and the Course Catalog from Ellucian and eCarps?
+> To get the scheduling information, professor Van Dyke web scraped the View.
+
+How are curriculums changed within each department (or at least the ENGR department)?
+> The chair makes a proposal, many committees, the chair of the department would have the best knowledge.
+
+As Ellucian comes as a package, this project may need to work as an addition to what Messiah already pays to Ellucian. How cost intensive do you imagine a project with the scope of creating an additional software would be?
+> In terms of labor, it costs a lot. In terms of additional software mostly free.
+
+How feasible would it be to use the database associated with the Ellucian system into a new system?
+> API access possibly all has to do with if they give us permission to do it or not.
+
+How much do you need to change semester over semester/how much work do you put in between semesters?
+> Not many changes in curriculums only change 1 time per year, not semester. Just for maintenance, probably 5 hours.
+
+How much do you get paid to do eCarps?
+> None extra officially, counts as service to the college
+
+Would you recommend this assignment as an idea for students, state your reasoning?
+> No, But you should make an app for symposium with a schedule for maps and what event you should go to, things like where to go, what to do and when to do it, zoom links for zoom meeting and stuff.
+
+### Results of Interview with Dr. Suberi
+What problems have you encountered with the current course registration system?
+> No other administrative problems<br>
+> Changes in the view may not show up on your system
+
+Have you experienced any difficulties in preparing students for their course registration as an advisor?
+> Manually have to find out how many students are planning on taking a class<br>
+> Have to segregate files of graduated students<br>
+> Help department chair with staffing
+
+What problems have you encountered when designing your system?
+> Other than getting access to data, it has gone fairly smoothly
