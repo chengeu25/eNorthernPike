@@ -449,6 +449,283 @@ sequenceDiagram
 | -------------------------- | ------------- | --------------------------- | ----------- |
 | Program requirements table | Process 1.1.2 | Requirements editor webpage | Screen      |
 | Selected program           | Process 1.4   |
+
+#### Use Case Name: Add a requirement
+
+> __ID__ : UC-1.2
+
+> __Priority__ : High
+
+> __Actor__ : Faculty
+
+> __Description__ : Faculty adds a requirement to an academic program.
+
+> __Trigger__ : Program is selected and requirements table has been generated.
+
+> __Type__ : External
+
+> __Preconditions__ :
+>   1. Faculty must be logged into the system.
+>   2. Faculty must have permission to edit programs.
+>   3. Faculty must have selected the "View/Edit Requirements" tab.
+>   4. Faculty must have selected a program to view or edit.
+>   5. The database must be queried and the data must be in a format accessible to the table builder component.
+>   6. Requirements table must be generated.
+>   7. Add requirement button must be rendered.
+
+| Normal Course:                                                                    | Information for Steps                          |
+| --------------------------------------------------------------------------------- | ---------------------------------------------- |
+| 1.2.2. Display input fields **Numbers out of order for same reason as Process 1.* |
+| 1. Update database                                                                | $\leftarrow$ Information about new requirement |
+
+> __Postconditions__ :
+>   1. The new requirement is added to the database.
+
+| Summary Inputs       | Source  | Summary Outputs        | Destination                   |
+| -------------------- | ------- | ---------------------- | ----------------------------- |
+| New requirement info | Faculty | New requirement info   | Program requirements database |
+|                      |         | Requirement entry form | Screen                        |
+
+#### Use Case Name: Display new requirement input fields
+
+> __ID__ : UC-1.2.2
+
+> __Priority__ : High
+
+> __Actor__ : Faculty
+
+> __Description__ : System builds the input fields for the new requirements
+
+> __Trigger__ : Faculty clicks "Add Requirement" button
+
+> __Type__ : External
+
+> __Preconditions__ :
+>   1. Faculty must be logged into the system.
+>   2. Faculty must have permission to edit programs.
+>   3. Faculty must have selected the "View/Edit Requirements" tab.
+>   4. Faculty must have selected a program to view or edit.
+>   5. The database must be queried and the data must be in a format accessible to the table builder component.
+>   6. Requirements table must be generated.
+>   7. Add button must be displayed.
+>   8. Faculty must have clicked add button.
+
+| Normal Course:                          | Information for Steps                                                                     |
+| --------------------------------------- | ----------------------------------------------------------------------------------------- |
+| 1.2.2.1. Get list of needed fields      | $\leftarrow$ Headers from Program requirements databse                                    |
+| 2. Display inputs for all needed fields | $\leftarrow$ List of fields                                                               |
+| 3. Display confirm button               |                                                                                           |
+| 4. Wrap in container and render         | $\leftarrow$ Reference to input fields<br>$\leftarrow$ Reference to input field container |
+| 5. Confirm add                          |                                                                                           |
+| 6. Unmount container of fields          | $\leftarrow$ Reference to the field container                                             |
+
+> __Postconditions__ :
+>   1. The new requirement data is sent to the database updater.
+
+| Summary Inputs | Source                        | Summary Outputs      | Destination   |
+| -------------- | ----------------------------- | -------------------- | ------------- |
+| List of fields | Program requirements database | New requirement info | Process 1.2.1 |
+
+#### Use Case Name: Remove a requirement
+
+> __ID__ : UC-1.3
+
+> __Priority__ : High
+
+> __Actor__ : Faculty
+
+> __Description__ : System builds the input fields for the new requirements
+
+> __Trigger__ : Faculty clicks "Remove" button on a requirement
+
+> __Type__ : External
+
+> __Preconditions__ :
+>   1. Faculty must be logged into the system.
+>   2. Faculty must have permission to edit programs.
+>   3. Faculty must have selected the "View/Edit Requirements" tab.
+>   4. Faculty must have selected a program to view or edit.
+>   5. The database must be queried and the data must be in a format accessible to the table builder component.
+>   6. Requirements table must be generated.
+>   7. Faculty must have clicked remove button.
+
+| Normal Course:                                                               | Information for Steps              |
+| ---------------------------------------------------------------------------- | ---------------------------------- |
+| 1.3.1. Get requirement to remove (aka value of first column of selected row) |                                    |
+| 2. Remove requirement from database                                          | $\leftarrow$ Requirement to remove |
+                                        
+
+> __Postconditions__ :
+>   1. The selected requirement is removed from the database.
+
+| Summary Inputs        | Source  | Summary Outputs             | Destination                   |
+| --------------------- | ------- | --------------------------- | ----------------------------- |
+| Requirement to remove | Faculty | Query to remove requirement | Program requirements database |
+
+#### Use Case Name: Select program
+
+> __ID__ : UC-1.4
+
+> __Priority__ : High
+
+> __Actor__ : Faculty
+
+> __Description__ : Faculty selects a program to edit
+
+> __Trigger__ : Faculty opens edit requirements screen
+
+> __Type__ : External
+
+> __Preconditions__ :
+>   1. Faculty must be logged into the system.
+>   2. Faculty must have permission to edit programs.
+>   3. Faculty must have selected the "View/Edit Requirements" tab.
+
+| Normal Course:                             | Information for Steps                                                               |
+| ------------------------------------------ | ----------------------------------------------------------------------------------- |
+| 1.4.1. Construct dropdown menu of programs | $\leftarrow$ List of programs                                                       |
+| 2. Create choose button                    | $\leftarrow$ Click event when this button is clicked                                |
+| 3. Construct choose program screen         | $\leftarrow$ Reference to choose button <br> $\leftarrow$ Dropdown menu of programs |
+
+> __Postconditions__ :
+>   1. The program will be selected.
+
+| Summary Inputs      | Source                        | Summary Outputs  | Destination |
+| ------------------- | ----------------------------- | ---------------- | ----------- |
+| List of programs    | Program requirements database | Selected program | Process 1.1 |
+| Select confirmation | Faculty                       |
+
+#### Use Case Name: Construct choose program screen
+
+> __ID__ : UC-1.4.3
+
+> __Priority__ : High
+
+> __Actor__ : System
+
+> __Description__ : System builds the screen for selecting a program to edit
+
+> __Trigger__ : Faculty clicks the "View/Edit Requirements" Tab
+
+> __Type__ : External
+
+> __Preconditions__ :
+>   1. Faculty must be logged into the system.
+>   2. Faculty must have permission to edit programs.
+>   3. Faculty must have selected the "View/Edit Requirements" tab.
+
+| Normal Course:                                | Information for Steps                                          |
+| --------------------------------------------- | -------------------------------------------------------------- |
+| 1.4.3.1. Load UI Components                   | $\leftarrow$ References to the dropdown menu and choose button |
+| 2. Fetch data and make list for dropdown menu | $\leftarrow$ List of programs                                  |
+| 3. Advance screen                             |
+
+> __Postconditions__ :
+>   1. The screen for selecting a program is displayed.
+>   2. The program is ready to advance to the next screen when a program is selected.
+
+| Summary Inputs                                     | Source                    | Summary Outputs           | Destination |
+| -------------------------------------------------- | ------------------------- | ------------------------- | ----------- |
+| References to the dropdown menu and chooose button | Processes 1.4.1 and 1.4.2 | UI for choosing a program | Screen      |
+
+#### Use Case Name: Load UI components for program chooser
+
+> __ID__ : UC-1.4.3.1
+
+> __Priority__ : High
+
+> __Actor__ : System
+
+> __Description__ : System renders the UI for the program chooser
+
+> __Trigger__ : Dropdown menu and confirm button are ready to be displayed
+
+> __Type__ : Internal
+
+> __Preconditions__ :
+>   1. Faculty must be logged into the system.
+>   2. Faculty must have permission to edit programs.
+>   3. Faculty must have selected the "View/Edit Requirements" tab.
+>   4. Program dropdown and confirm button must be ready to display.
+
+| Normal Course:                     | Information for Steps                                       |
+| ---------------------------------- | ----------------------------------------------------------- |
+| 1.4.3.1.1. Render container        | $\leftarrow$ Components to display (from process 1.4.3.1.2) |
+| 1.4.3.1.2. Render child components | $\leftarrow$ Dropdown and confirm button                    |
+
+> __Postconditions__ :
+>   1. The new requirement data is sent to the database updater.
+
+| Summary Inputs   | Source        | Summary Outputs           | Destination     |
+| ---------------- | ------------- | ------------------------- | --------------- |
+| Program dropdown | Process 1.4.1 | UI for choosing a program | Process 1.4.3.3 |
+| Confirm button   | Process 1.4.2 |
+
+#### Use Case Name: Fetch program list
+
+> __ID__ : UC-1.4.3.2
+
+> __Priority__ : High
+
+> __Actor__ : System
+
+> __Description__ : System fetches the list of program from the program database.
+
+> __Trigger__ : System has requested to build the dropdown menu for selecting a program to edit.
+
+> __Type__ : Internal
+
+> __Preconditions__ :
+>   1. Faculty must be logged into the system.
+>   2. Faculty must have permission to edit programs.
+>   3. Faculty must have selected the "View/Edit Requirements" tab.
+>   4. Program dropdown has been requested.
+
+| Normal Course:                               | Information for Steps         |
+| -------------------------------------------- | ----------------------------- |
+| 1.4.3.2.1. Fetch program list                | $\leftarrow$ List of programs |
+| 2. Send program list to dropdown constructor | $\leftarrow$ List of programs |
+
+> __Postconditions__ :
+>   1. The new requirement data is sent to the database updater.
+
+| Summary Inputs   | Source                        | Summary Outputs  | Destination   |
+| ---------------- | ----------------------------- | ---------------- | ------------- |
+| List of programs | Program requirements database | List of programs | Process 1.4.1 |
+
+#### Use Case Name: Advance screen
+
+> __ID__ : UC-1.4.3.3
+
+> __Priority__ : High
+
+> __Actor__ : Faculty
+
+> __Description__ : System advances to display the requirements for the selected program
+
+> __Trigger__ : Program must be selected
+
+> __Type__ : External
+
+> __Preconditions__ :
+>   1. Faculty must be logged into the system.
+>   2. Faculty must have permission to edit programs.
+>   3. Faculty must have selected the "View/Edit Requirements" tab.
+>   4. Faculty must have selected a program.
+
+| Normal Course:                        | Information for Steps                               |
+| ------------------------------------- | --------------------------------------------------- |
+| 1.4.3.3.1. Remove selection container | $\leftarrow$ Reference to the selection container   |
+| 2. Mount edit screen                  | $\leftarrow$ Reference to the edit screen container |
+
+> __Postconditions__ :
+>   1. The selection screen is no longer displayed.
+>   2. The edit screen is displayed.
+
+| Summary Inputs                       | Source          | Summary Outputs | Destination |
+| ------------------------------------ | --------------- | --------------- | ----------- |
+| Reference to the selection container | Process 1.4.3.1 | Edit screen     | Process 1.1 |
+| Edit screen                          | Process 1.1     |
  
 ### 5.3 Process Model (Data Flow Diagram)
 Provided to the degree of depth necessary for building the system with good programming practices (generally 3-5 levels).
@@ -738,9 +1015,9 @@ d2[[D2: Program Requirements Database]]
 1.2.2.1(1.2.2.1 \n Get list of needed fields)
 1.2.2.2(1.2.2.2 \n Display inputs for all needed fields)
 1.2.2.3(1.2.2.3 \n Display confirm button)
-1.2.2.4(1.2.2.4 \n Confirm add)
-1.2.2.5(1.2.2.5 \n Unmount container)
-1.2.2.6(1.2.2.6 \n Wrap in conatiner and render)
+1.2.2.4(1.2.2.5 \n Confirm add)
+1.2.2.5(1.2.2.6 \n Unmount container)
+1.2.2.6(1.2.2.4 \n Wrap in container and render)
 1.2.1(1.2.1 \n Update \n database)
 
 f --Confirms new requirement--> 1.2.2.3
@@ -869,6 +1146,8 @@ flowchart LR
 1.4.3.1 --Remove--> 1.4.3.3.1
 1.4.3.3.1 --Build next page--> 1.4.3.3.2
 1.4.3.3.2 --Build next page--> 1.1
+1.4.3.3.2 --Request edit screen--> 1.1
+1.1 --Send edit screen--> 1.4.3.3.2
 ```
 
 Level 2, Process 8:
