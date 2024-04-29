@@ -726,7 +726,457 @@ sequenceDiagram
 | ------------------------------------ | --------------- | --------------- | ----------- |
 | Reference to the selection container | Process 1.4.3.1 | Edit screen     | Process 1.1 |
 | Edit screen                          | Process 1.1     |
+
+#### Use Case Name: Update student program
+
+> __ID__ : UC-8
+
+> __Priority__ : High
+
+> __Actor__ : Faculty
+
+> __Description__ : Faculty updates the program for a student
+
+> __Trigger__ : Faculty clicks the "update student program" tab
+
+> __Type__ : External
+
+> __Preconditions__ :
+>   1. Faculty must be logged into the system.
+>   2. Faculty must have permission to edit student programs.
+>   3. Faculty must have selected the "Update student program" tab.
+
+| Normal Course:                 | Information for Steps                                           |
+| ------------------------------ | --------------------------------------------------------------- |
+| 8.1. Select student            | $\leftarrow$ List of students                                   |
+| 2. Display program editor page | $\leftarrow$ List of programs<br> $\leftarrow$ Selected student |
+
+> __Postconditions__ :
+>   1. The selected student's programs are updated.
+
+| Summary Inputs   | Source                        | Summary Outputs                      | Destination                            |
+| ---------------- | ----------------------------- | ------------------------------------ | -------------------------------------- |
+| Selected student | Faculty                       | Updated list of programs for student | Faculty/student login/program database |
+| List of programs | Program requirements database |
+
+#### Use Case Name: Select student
+
+> __ID__ : UC-8.1
+
+> __Priority__ : High
+
+> __Actor__ : Faculty
+
+> __Description__ : Faculty selects a student to edit the programs for
+
+> __Trigger__ : Faculty clicks the "View/Edit Requirements" Tab
+
+> __Type__ : External
+
+> __Preconditions__ :
+>   1. Faculty must be logged into the system.
+>   2. Faculty must have permission to edit programs.
+>   3. Faculty must have selected the "View/Edit Requirements" tab.
+
+| Normal Course:                   | Information for Steps         |
+| -------------------------------- | ----------------------------- |
+| 8.1.1. Build student search form | $\leftarrow$ List of students |
+| 2. Search database for student   | $\leftarrow$ Search query     |
+| 3. Show rest of page             |                               |
+
+> __Postconditions__ :
+>   1. The student to edit the programs of is selected.
+
+| Summary Inputs   | Source                                 | Summary Outputs  | Destination           |
+| ---------------- | -------------------------------------- | ---------------- | --------------------- |
+| List of students | Student/faculty login/program database | Selected student | Processes 8.2 and 8.5 |
+| Search query     | Faculty                                |
  
+#### Use Case Name: Build student search form
+
+> __ID__ : UC-8.1.1
+
+> __Priority__ : High
+
+> __Actor__ : System
+
+> __Description__ : System builds the form for searching for students
+
+> __Trigger__ : System requests for the search form to be built
+
+> __Type__ : Internal
+
+> __Preconditions__ :
+>   1. Faculty must be logged into the system.
+>   2. Faculty must have permission to edit programs.
+>   3. Faculty must have selected the "View/Edit Requirements" tab.
+>   4. System must have requested to build the student search form.
+
+| Normal Course:                             | Information for Steps                                   |
+| ------------------------------------------ | ------------------------------------------------------- |
+| 8.1.1.1. Get list of columns from database | $\leftarrow$ List of columns in student database        |
+| 2. Add fields for each column to screen    | $\leftarrow$ List of columns in student database        |
+| 3. Add selectable list of students         | $\leftarrow$ List of students, filtered by search query |
+
+> __Postconditions__ :
+>   1. The faculty has a list of students displayed that meet his/her search query and can select one for editing.
+
+| Summary Inputs                      | Source                                 | Summary Outputs  | Destination             |
+| ----------------------------------- | -------------------------------------- | ---------------- | ----------------------- |
+| List of students                    | Student/faculty login/program database | Selected student | Processes 8.1.3 and 8.5 |
+| List of columns in student database | Student/faculty login/program database | Search form      | Screen                  |
+| Search query                        | Process 8.1.2                          |
+
+#### Use Case Name: Get list of columns from database
+
+> __ID__ : UC-8.1.1.1
+
+> __Priority__ : High
+
+> __Actor__ : System
+
+> __Description__ : System gets the list of columns in the student database
+
+> __Trigger__ : System requests the list of columns in the student database while building the search form
+
+> __Type__ : Internal
+
+> __Preconditions__ :
+>   1. Faculty must be logged into the system.
+>   2. Faculty must have permission to edit programs.
+>   3. Faculty must have selected the "View/Edit Requirements" tab.
+>   4. System must be in the process of building the student search form.
+
+| Normal Course:                     | Information for Steps        |
+| ---------------------------------- | ---------------------------- |
+| 8.1.1.1.1. Request list of columns |                              |
+| 2. Receive list of columns         | $\leftarrow$ List of columns |
+
+> __Postconditions__ :
+>   1. The system has attained the list of columns in the student database.
+
+| Summary Inputs  | Source                                 | Summary Outputs    | Destination         |
+| --------------- | -------------------------------------- | ------------------ | ------------------- |
+| List of columns | Student/faculty login/program database | List of parameters | Student search form |
+
+#### Use Case Name: Display selectable list of students
+
+> __ID__ : UC-8.1.1.3
+
+> __Priority__ : High
+
+> __Actor__ : System
+
+> __Description__ : System builds a list of students that meet the search query and of which one can be selected.
+
+> __Trigger__ : Faculty enters a search query into the student search form
+
+> __Type__ : Internal
+
+> __Preconditions__ :
+>   1. Faculty must be logged into the system.
+>   2. Faculty must have permission to edit programs.
+>   3. Faculty must have selected the "View/Edit Requirements" tab.
+>   4. Student search form must be built.
+>   5. Faculty must have entered data into at least one field in the student search form.
+
+| Normal Course:               | Information for Steps                                                                                         |
+| ---------------------------- | ------------------------------------------------------------------------------------------------------------- |
+| 8.1.1.3.1. Wrap in container | $\leftarrow$ List ready to display (from process 8.1.1.3.2 and 8.1.1.3.3, this will request those components) |
+| 2. Display list              | $\leftarrow$ List of students that meet search query                                                          |
+| 3. Make selectable           | $\leftarrow$ Reference to each element in the displayable list                                                |
+
+> __Postconditions__ :
+>   1. A list of students that meet the search query is displayed and the faculty can select one.
+
+| Summary Inputs                          | Source        | Summary Outputs | Destination |
+| --------------------------------------- | ------------- | --------------- | ----------- |
+| List of students that meet search query | Process 8.1.2 | Selectable list | Screen      |
+
+#### Use Case Name: Search database for students
+
+> __ID__ : UC-8.1.2
+
+> __Priority__ : High
+
+> __Actor__ : System
+
+> __Description__ : System requests the list of students that meet a search query from the databse
+
+> __Trigger__ : Faculty enters data into the student search form
+
+> __Type__ : External
+
+> __Preconditions__ :
+>   1. Faculty must be logged into the system.
+>   2. Faculty must have permission to edit programs.
+>   3. Faculty must have selected the "View/Edit Requirements" tab.
+>   4. Student search form must be displayed.
+>   5. Faculty must have entered data into the student search form.
+
+| Normal Course:                           | Information for Steps        |
+| ---------------------------------------- | ---------------------------- |
+| 8.1.2.1. Query database with search term | $\leftarrow$ Search term     |
+| 2. Return students                       | $\leftarrow List of students |
+
+> __Postconditions__ :
+>   1. The system has access to a list of students that meet a faculty member's search parameters
+
+| Summary Inputs | Source        | Summary Outputs                      | Destination   |
+| -------------- | ------------- | ------------------------------------ | ------------- |
+| Search query   | Process 8.1.1 | List of students that meet the query | Process 8.1.1 |
+
+#### Use Case Name: Display program editor page
+
+> __ID__ : UC-8.2
+
+> __Priority__ : High
+
+> __Actor__ : System
+
+> __Description__ : System builds the screen for editing a student's programs
+
+> __Trigger__ : Faculty selects a student to edit
+
+> __Type__ : External
+
+> __Preconditions__ :
+>   1. Faculty must be logged into the system.
+>   2. Faculty must have permission to edit programs.
+>   3. Faculty must have selected the "View/Edit Requirements" tab.
+>   4. Faculty must have searched for students.
+>   5. Faculty must have selected a student.
+
+| Normal Course:                                      | Information for Steps                                |
+| --------------------------------------------------- | ---------------------------------------------------- |
+| 8.2.1. Display list of current programs for student | $\leftarrow$ Current programs of selected student    |
+| 2. Display program dropdown                         | $\leftarrow$ List of offered programs                |
+| 3. Display add button                               |
+| 4. Add delete buttons to programs                   | $\leftarrow$ UI list of current programs for student |
+| 5. Wrap in container                                | $\leftarrow$ Full UI from this process               |
+
+> __Postconditions__ :
+>   1. The screen for editing a student's programs is displayed.
+
+| Summary Inputs           | Source                        | Summary Outputs   | Destination |
+| ------------------------ | ----------------------------- | ----------------- | ----------- |
+| Selected student         | Process 8.1                   | Program to add    | Process 8.3 |
+| List of offered programs | Program requirements database | Program to remove | Process 8.4 |
+
+#### Use Case Name: Display list of current programs for student
+
+> __ID__ : UC-8.2.1
+
+> __Priority__ : High
+
+> __Actor__ : System
+
+> __Description__ : System builds the list of a student's current programs
+
+> __Trigger__ : Faculty clicks the "View/Edit Requirements" Tab
+
+> __Type__ : External
+
+> __Preconditions__ :
+>   1. Faculty must be logged into the system.
+>   2. Faculty must have permission to edit programs.
+>   3. Faculty must have selected the "View/Edit Requirements" tab.
+>   4. Faculty must have searched for students.
+>   5. Faculty must have selected a student.
+
+| Normal Course:     | Information for Steps                                                   |
+| ------------------ | ----------------------------------------------------------------------- |
+| 8.2.1.1. Build row | $\leftarrow$ List of programs for student<br>$\leftarrow$ Delete button |
+| 2. Wrap in table   | $\leftarrow$ Rows from process 8.2.1.1                                  |
+
+> __Postconditions__ :
+>   1. A list of the selected student's current programs is displayed with each having the option to remove it
+
+| Summary Inputs             | Source        | Summary Outputs             | Destination |
+| -------------------------- | ------------- | --------------------------- | ----------- |
+| List of student's programs | Process 8.1   | Table of student's programs | Screen      |
+| Delete button              | Process 8.2.4 |
+
+#### Use Case Name: Display program dropdown
+
+> __ID__ : UC-8.2.2
+
+> __Priority__ : High
+
+> __Actor__ : System
+
+> __Description__ : System builds the dropdown for choosing a program to add
+
+> __Trigger__ : Dropdown builder requests list of programs
+
+> __Type__ : Internal
+
+> __Preconditions__ :
+>   1. Faculty must be logged into the system.
+>   2. Faculty must have permission to edit programs.
+>   3. Faculty must have selected the "View/Edit Requirements" tab.
+>   4. Faculty must have searched for students.
+>   5. Faculty must have selected a student.
+>   6. System must be building the program dropdown.
+
+| Normal Course:                        | Information for Steps                                                     |
+| ------------------------------------- | ------------------------------------------------------------------------- |
+| 8.2.2.1. Build dropdown               | $\leftarrow$ Program list, this process requests it from the next process |
+| 2. Request program list from database |
+> __Postconditions__ :
+>   1. The list of offered programs in a dropdown is ready to display
+
+| Summary Inputs           | Source                        | Summary Outputs              | Destination |
+| ------------------------ | ----------------------------- | ---------------------------- | ----------- |
+| List of offered programs | Program requirements database | Dropdown of offered programs | Screen      |
+
+#### Use Case Name: Add program to student
+
+> __ID__ : UC-8.3
+
+> __Priority__ : High
+
+> __Actor__ : System
+
+> __Description__ : System adds a program to a student.
+
+> __Trigger__ : Faculty clicks the "Add program" button.
+
+> __Type__ : External
+
+> __Preconditions__ :
+>   1. Faculty must be logged into the system.
+>   2. Faculty must have permission to edit programs.
+>   3. Faculty must have selected the "View/Edit Requirements" tab.
+>   4. Faculty must have searched for students.
+>   5. Faculty must have selected a student.
+>   6. Faculty must have selected a program to add.
+>   7. Faculty must have clicked the "Add" button.
+
+| Normal Course:                               | Information for Steps       |
+| -------------------------------------------- | --------------------------- |
+| 8.3.1. Receive program from user             | $\leftarrow$ Program to add |
+| 2. Send program to database updater function |
+
+> __Postconditions__ :
+>   1. The program to add has been passed to the database updater function.
+
+| Summary Inputs | Source      | Summary Outputs | Destination |
+| -------------- | ----------- | --------------- | ----------- |
+| Program to add | Process 8.2 | Program to add  | Process 8.5 |
+
+#### Use Case Name: Remove program from student
+
+> __ID__ : UC-8.4
+
+> __Priority__ : High
+
+> __Actor__ : System
+
+> __Description__ : System adds a program to a student.
+
+> __Trigger__ : Faculty clicks the "Remove program" button.
+
+> __Type__ : External
+
+> __Preconditions__ :
+>   1. Faculty must be logged into the system.
+>   2. Faculty must have permission to edit programs.
+>   3. Faculty must have selected the "View/Edit Requirements" tab.
+>   4. Faculty must have searched for students.
+>   5. Faculty must have selected a student.
+>   6. Faculty must have clicked the "Remove" button on a program.
+
+| Normal Course:                               | Information for Steps          |
+| -------------------------------------------- | ------------------------------ |
+| 8.4.1. Receive program to remove from user   | $\leftarrow$ Program to remove |
+| 2. Send program to database updater function |
+
+> __Postconditions__ :
+>   1. The program to remove has been passed to the database updater function.
+
+| Summary Inputs    | Source      | Summary Outputs   | Destination |
+| ----------------- | ----------- | ----------------- | ----------- |
+| Program to remove | Process 8.2 | Program to remove | Process 8.5 |
+
+#### Use Case Name: Update student program database
+
+> __ID__ : UC-8.5
+
+> __Priority__ : High
+
+> __Actor__ : System
+
+> __Description__ : System updates the database with the updated student programs.
+
+> __Trigger__ : Faculty either clicks the "Add program" or "Remove program" button and the database function is called.
+
+> __Type__ : External
+
+> __Preconditions__ :
+>   1. Faculty must be logged into the system.
+>   2. Faculty must have permission to edit programs.
+>   3. Faculty must have selected the "View/Edit Requirements" tab.
+>   4. Faculty must have searched for students.
+>   5. Faculty must have selected a student.
+>   6. Faculty must have selected a program to add.
+>   7. Faculty must have clicked either the "Add" or "Remove" button.
+>   8. Program to add or remove must have been passed to this process, as has the selected student.
+
+| Normal Course:                                     | Information for Steps                                                                                          |
+| -------------------------------------------------- | -------------------------------------------------------------------------------------------------------------- |
+| 8.5.1. Add program to student indatabase           | $\leftarrow$ Program to add<br> $\leftarrow$ Student selected, this process requests it from process 8.5.3.    |
+| 2. Remove program from student in database         | $\leftarrow$ Program to remove<br> $\leftarrow$ Student selected, this process requests it from process 8.5.3. |
+| 3. Send student info and call appropriate function | $\leftarrow$ Student info <br> $\leftarrow$ Whether we add or remove                                           |
+
+> __Postconditions__ :
+>   1. The program to add has been passed to the database updater function.
+
+| Summary Inputs   | Source      | Summary Outputs   | Destination                            |
+| ---------------- | ----------- | ----------------- | -------------------------------------- |
+| Add event        | Process 8.3 | Program to add    | Student/faculty login/program database |
+| Remove event     | Process 8.4 | Program to remove | Student/faculty login/program database |
+| Selected student | Process 8.1 |
+
+#### Use Case Name: Send student info to appropriate function
+
+> __ID__ : UC-8.5.3
+
+> __Priority__ : High
+
+> __Actor__ : System
+
+> __Description__ : System calls the appropriate function with the selected student to add/remove a program.
+
+> __Trigger__ : Faculty either clicks the "Add program" or "Remove program" button and the database function is called.
+
+> __Type__ : External
+
+> __Preconditions__ :
+>   1. Faculty must be logged into the system.
+>   2. Faculty must have permission to edit programs.
+>   3. Faculty must have selected the "View/Edit Requirements" tab.
+>   4. Faculty must have searched for students.
+>   5. Faculty must have selected a student.
+>   6. Faculty must have selected a program to add.
+>   7. Faculty must have clicked either the "Add" or "Remove" button.
+>   8. Add or remove event trigger must have been passed to this process, as has the selected student.
+
+| Normal Course:              | Information for Steps                                   |
+| --------------------------- | ------------------------------------------------------- |
+| 8.5.3.1. Store student info | $\leftarrow$ Student info                               |
+| 2. Return student info      | $\leftarrow$ Student info, which function to pass it to |
+
+> __Postconditions__ :
+>   1. The appropriate database function has been called with the appropriate arguments.
+
+| Summary Inputs   | Source          | Summary Outputs   | Destination   |
+| ---------------- | --------------- | ----------------- | ------------- |
+| Add event        | Process 8.5.3.2 | Program to add    | Process 8.5.1 |
+| Remove event     | Process 8.5.3.2 | Program to remove | Process 8.5.2 |
+| Selected student | Process 8.1     |
+
+
 ### 5.3 Process Model (Data Flow Diagram)
 Provided to the degree of depth necessary for building the system with good programming practices (generally 3-5 levels).
 
