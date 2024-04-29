@@ -1178,7 +1178,7 @@ sequenceDiagram
 | Selected student | Process 8.1     |
 
 ### Use Case Name: View/Edit Registration Plan
-> __ID__ : UC-2
+> __ID__ : UC-4
 
 > __Priority__ : High
 
@@ -1210,7 +1210,7 @@ sequenceDiagram
 |Selected course|	Student|
 
 ### Use Case Name: Get What If Requirements
-> __ID__ : UC-3
+> __ID__ : UC-5
 
 > __Priority__ : High
 
