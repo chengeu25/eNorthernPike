@@ -135,6 +135,7 @@ sequenceDiagram
 ### 5.2 Use Cases
 > *Reference Chapter 4*
 
+
 #### Use Case Name:  Edit Program Requirements
 
 > __ID__ : UC-1
@@ -1176,6 +1177,68 @@ sequenceDiagram
 | Remove event     | Process 8.5.3.2 | Program to remove | Process 8.5.2 |
 | Selected student | Process 8.1     |
 
+### Use Case Name: View/Edit Registration Plan
+> __ID__ : UC-2
+
+> __Priority__ : High
+
+> __Actor__ : Student
+
+> __Description__ : Students use the system to view and edit their registration plan.
+
+> __Trigger__ : Student selects the "View/Edit Registration Plan" tab
+
+> __Type__ : External
+
+> __Preconditions__ :
+
+> 1. Student must be logged into the system.
+> 2. Student must have selected the "View/Edit Registration Plan" tab.
+
+| Normal Course: | Information for Steps |
+|---|---|
+|1. Current registration plan displays with add and remove buttons|$\leftarrow$ Current registration plan$\leftarrow$ Selected course|
+|2. Add a course to the plan | $\leftarrow$ Selected course |
+|3. Remove a course from the plan |$\leftarrow$ Selected course|
+
+> __Postconditions__ :
+> 1. Selected registration plan is updated with any added or removed courses
+
+|Summary Inputs|	Source|	Summary Outputs|	Destination|
+|--|--|--|--|
+|List of current courses|	Registration plan database|	New registration plan	|Student|
+|Selected course|	Student|
+
+### Use Case Name: Get What If Requirements
+> __ID__ : UC-3
+
+> __Priority__ : High
+
+> __Actor__ : Student
+
+> __Description__ : Students use the system to view "What If" requirements for academic programs.
+
+> __Trigger__ : Student selects the "What If" tab
+
+> __Type__ : External
+
+> __Preconditions__ :
+> 1. Student must be logged into the system.
+> 2. Student must have selected the "What If" tab.
+
+|Normal Course:|	Information for Steps|
+|--|--|
+|1. Current program requirements display|	$\leftarrow$ Current program requirements$\leftarrow$ Selected program|
+|2. Select a different program|	$\leftarrow$ Selected program|
+|3. View "What If" requirements|	$\leftarrow$ Selected program|
+
+> __Postconditions__ :
+> 1. "What If" requirements for the selected program are displayed
+
+|Summary Inputs	|Source	|Summary Outputs|	Destination|
+|--|--|--|--|
+|List of current requirements|	Program requirements database|	"What If" requirements|	Student|
+|Selected program|	Student|		
 
 ### 5.3 Process Model (Data Flow Diagram)
 Provided to the degree of depth necessary for building the system with good programming practices (generally 3-5 levels).
@@ -1599,6 +1662,95 @@ flowchart LR
 1.4.3.3.2 --Request edit screen--> 1.1
 1.1 --Send edit screen--> 1.4.3.3.2
 ```
+
+level 2, Process 4:
+```mermaid
+flowchart LR
+a1[Student]
+d4[[D4: Course Plan Database]]
+4.1(4.1\nView Registration Plan)
+4.2(4.2\nEdit Registration Plan)
+a1 --Go to plan page--> 4.1 --Read from database--> d4
+a1 --Go to plan page--> 4.2 --Update database--> d4
+d4 --Return courses-->4.1
+```
+
+level 3, Process 4:
+```mermaid
+flowchart LR
+a1[Student]
+d4[[D4: Course Plan Database]]
+4.1.1(4.1.1\nView Current Courses)
+4.1.2(4.1.2\nView Future Courses)
+4.2.1(4.2.1\nAdd Course)
+4.2.2(4.2.2\nRemove Course)
+a1 --Go to plan page--> 4.1.1 --Read from database--> d4
+a1 --Go to plan page--> 4.1.2 --Read from database--> d4
+a1 --Go to plan page--> 4.2.1 --Update database--> d4
+a1 --Go to plan page--> 4.2.2 --Update database--> d4
+d4 --Return current courses-->4.1.1
+d4 --Return future courses-->4.1.2
+```
+
+level 4, Process 4:
+```mermaid
+flowchart LR
+a1[Student]
+d4[[D4: Course Plan Database]]
+4.1.1.1(4.1.1.1\nView Current Semester Courses)
+4.1.1.2(4.1.1.2\nView Completed Courses)
+4.1.2.1(4.1.2.1\nView Next Semester Courses)
+4.1.2.2(4.1.2.2\nView Future Semesters Courses)
+4.2.1.1(4.2.1.1\nSearch for Course)
+4.2.1.2(4.2.1.2\nSelect Course)
+4.2.2.1(4.2.2.1\nSearch for Course)
+4.2.2.2(4.2.2.2\nSelect Course)
+a1 --Go to plan page--> 4.1.1.1 --Read from database--> d4
+a1 --Go to plan page--> 4.1.1.2 --Read from database--> d4
+a1 --Go to plan page--> 4.1.2.1 --Read from database--> d4
+a1 --Go to plan page--> 4.1.2.2 --Read from database--> d4
+a1 --Go to plan page--> 4.2.1.1 --Update database--> d4
+a1 --Go to plan page--> 4.2.1.2 --Update database--> d4
+a1 --Go to plan page--> 4.2.2.1 --Update database--> d4
+a1 --Go to plan page--> 4.2.2.2 --Update database--> d4
+d4 --Return current semester courses-->4.1.1.1
+d4 --Return completed courses-->4.1.1.2
+d4 --Return next semester courses-->4.1.2.1
+d4 --Return future semesters courses-->4.1.2.2
+```
+
+Level 2, Process 5:
+```mermaid
+flowchart LR
+a1[Student]
+d2[[D2: Program Requirements Database]]
+5.1(5.1\nInput What If Requirements)
+5.2(5b\nView What If Requirements)
+a1 --Input What If--> 5.1 --Fetch requirements from database--> d2
+a1 --Go to What If page--> 5.2 --Fetch requirements from database--> d2
+d2 --Send new requirements-->5.1
+d2 --Send new requirements-->5.2
+```
+
+Level 3, Process 5:
+```mermaid
+flowchart LR
+a1[Student]
+d2[[D2: Program Requirements Database]]
+5.1.1(5.1.1\nInput What If Major Requirements)
+5.1.2(5.1.2\nInput What If Minor Requirements)
+5.2.1(5.2.1\nView What If Major Requirements)
+5.2.2(5.2.2\nView What If Minor Requirements)
+a1 --Input What If Major--> 5.1.1 --Fetch requirements from database--> d2
+a1 --Input What If Minor--> 5.1.2 --Fetch requirements from database--> d2
+a1 --Go to What If Major page--> 5.2.1 --Fetch requirements from database--> d2
+a1 --Go to What If Minor page--> 5.2.2 --Fetch requirements from database--> d2
+d2 --Send new major requirements-->5.1.1
+d2 --Send new minor requirements-->5.1.2
+d2 --Send new major requirements-->5.2.1
+d2 --Send new minor requirements-->5.2.2
+```
+
 
 Level 2, Process 8:
 ```mermaid
