@@ -2042,7 +2042,26 @@ flowchart TD
 > A set of data models and descriptions for the to‐be system. This may include data models of the as‐is system that will be replaced.
 
 ### 5.4 Structure Chart Diagram
-> *Reference Chapter 9*
+```mermaid
+graph TB
+   System[1.0 \n System]
+   Login[1.1 \n Login Module]
+   UpdateProgramRequirements[1.2 \n Update Program Requirements Module]
+   UpdateCourseOfferings[1.3 \n Update Course Offerings Module]
+   ViewProgramRequirements[1.4 \n View Program Requirements Module]
+   EditRegistrationPlan[1.5 \n Edit Registration Plan Module]
+   GetWhatIfRequirements[1.6 \n Get What If Requirements Module]
+   ViewCourseOfferings[1.7 \n View Course Offerings Module]
+   UpdateStudentsProgram[1.8 \n Update Student's Program Module]
+   System --> Login
+   System --> UpdateProgramRequirements
+   System --> UpdateCourseOfferings
+   System --> ViewProgramRequirements
+   System --> EditRegistrationPlan
+   System --> GetWhatIfRequirements
+   System --> ViewCourseOfferings
+   System --> UpdateStudentsProgram
+```
 
 ## 6. Appendices
 
