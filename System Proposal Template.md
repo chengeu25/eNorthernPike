@@ -2061,6 +2061,41 @@ graph TB
    System --> GetWhatIfRequirements
    System --> ViewCourseOfferings
    System --> UpdateStudentsProgram
+   Login --> LoginCheck[1.1.1 \n Login Check]
+   Login --> ResetPassword[1.1.2 \n Reset Password]
+   UpdateProgramRequirements --> AddRequirement[1.2.1 \n Add Requirement]
+   UpdateProgramRequirements --> RemoveRequirement[1.2.2 \n Remove Requirement]
+   UpdateCourseOfferings --> AddCourse[1.3.1 \n Add Course]
+   UpdateCourseOfferings --> RemoveCourse[1.3.2 \n Remove Course]
+   ViewProgramRequirements --> ViewMajorRequirements[1.4.1 \n View Major Requirements]
+   ViewProgramRequirements --> ViewMinorRequirements[1.4.2 \n View Minor Requirements]
+   EditRegistrationPlan --> AddCourseToPlan[1.5.1 \n Add Course to Plan]
+   EditRegistrationPlan --> RemoveCourseFromPlan[1.5.2 \n Remove Course from Plan]
+   GetWhatIfRequirements --> ViewWhatIfMajor[1.6.1 \n View What If Major]
+   GetWhatIfRequirements --> ViewWhatIfMinor[1.6.2 \n View What If Minor]
+   ViewCourseOfferings --> ViewCourseDetails[1.7.1 \n View Course Details]
+   UpdateStudentsProgram --> UpdateMajor[1.8.1 \n Update Major]
+   UpdateStudentsProgram --> UpdateMinor[1.8.2 \n Update Minor]
+   subgraph "Library Modules"
+   LM1[LM1 \n Authentication Library]
+   LM2[LM2 \n Database Access Library]
+   end
+   Login -->|Data Couple| LM1
+   UpdateProgramRequirements -->|Data Couple| LM2
+   UpdateCourseOfferings -->|Data Couple| LM2
+   ViewProgramRequirements -->|Data Couple| LM2
+   EditRegistrationPlan -->|Data Couple| LM2
+   GetWhatIfRequirements -->|Data Couple| LM2
+   ViewCourseOfferings -->|Data Couple| LM2
+   UpdateStudentsProgram -->|Data Couple| LM2
+   LoginCheck -->|Control Couple| ResetPassword
+   AddRequirement -->|Control Couple| RemoveRequirement
+   AddCourse -->|Control Couple| RemoveCourse
+   ViewMajorRequirements -->|Control Couple| ViewMinorRequirements
+   AddCourseToPlan -->|Control Couple| RemoveCourseFromPlan
+   ViewWhatIfMajor -->|Control Couple| ViewWhatIfMinor
+   ViewCourseDetails -->|Control Couple| UpdateMajor
+   UpdateMajor -->|Control Couple| UpdateMinor
 ```
 
 ## 6. Appendices
