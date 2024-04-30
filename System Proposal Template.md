@@ -1195,19 +1195,19 @@ sequenceDiagram
 > 1. Student must be logged into the system.
 > 2. Student must have selected the "View/Edit Registration Plan" tab.
 
-| Normal Course: | Information for Steps |
-|---|---|
-|1. Current registration plan displays with add and remove buttons|$\leftarrow$ Current registration plan$\leftarrow$ Selected course|
-|2. Add a course to the plan | $\leftarrow$ Selected course |
-|3. Remove a course from the plan |$\leftarrow$ Selected course|
+| Normal Course:                                                    | Information for Steps                                              |
+| ----------------------------------------------------------------- | ------------------------------------------------------------------ |
+| 1. Current registration plan displays with add and remove buttons | $\leftarrow$ Current registration plan$\leftarrow$ Selected course |
+| 2. Add a course to the plan                                       | $\leftarrow$ Selected course                                       |
+| 3. Remove a course from the plan                                  | $\leftarrow$ Selected course                                       |
 
 > __Postconditions__ :
 > 1. Selected registration plan is updated with any added or removed courses
 
-|Summary Inputs|	Source|	Summary Outputs|	Destination|
-|--|--|--|--|
-|List of current courses|	Registration plan database|	New registration plan	|Student|
-|Selected course|	Student|
+| Summary Inputs          | Source                     | Summary Outputs       | Destination |
+| ----------------------- | -------------------------- | --------------------- | ----------- |
+| List of current courses | Registration plan database | New registration plan | Student     |
+| Selected course         | Student                    |
 
 ### Use Case Name: Get What If Requirements
 > __ID__ : UC-5
@@ -1226,19 +1226,19 @@ sequenceDiagram
 > 1. Student must be logged into the system.
 > 2. Student must have selected the "What If" tab.
 
-|Normal Course:|	Information for Steps|
-|--|--|
-|1. Current program requirements display|	$\leftarrow$ Current program requirements$\leftarrow$ Selected program|
-|2. Select a different program|	$\leftarrow$ Selected program|
-|3. View "What If" requirements|	$\leftarrow$ Selected program|
+| Normal Course:                          | Information for Steps                                                  |
+| --------------------------------------- | ---------------------------------------------------------------------- |
+| 1. Current program requirements display | $\leftarrow$ Current program requirements$\leftarrow$ Selected program |
+| 2. Select a different program           | $\leftarrow$ Selected program                                          |
+| 3. View "What If" requirements          | $\leftarrow$ Selected program                                          |
 
 > __Postconditions__ :
 > 1. "What If" requirements for the selected program are displayed
 
-|Summary Inputs	|Source	|Summary Outputs|	Destination|
-|--|--|--|--|
-|List of current requirements|	Program requirements database|	"What If" requirements|	Student|
-|Selected program|	Student|		
+| Summary Inputs               | Source                        | Summary Outputs        | Destination |
+| ---------------------------- | ----------------------------- | ---------------------- | ----------- |
+| List of current requirements | Program requirements database | "What If" requirements | Student     |
+| Selected program             | Student                       |
 
 ### 5.3 Process Model (Data Flow Diagram)
 Provided to the degree of depth necessary for building the system with good programming practices (generally 3-5 levels).
@@ -1247,6 +1247,57 @@ Provided to the degree of depth necessary for building the system with good prog
 > Matthew - 2 and 6
 > Cheng Eu - 4 and 5
 > Garret - 3 and 7
+
+Level 0:
+```mermaid
+flowchart LR
+
+d1[[D1: Student/Faculty Login/Program Database]]
+d2[[D2: Program Requirements Database]]
+d3[[D3: Course Offerings Database]]
+d4[[D4: Course Plan Database]]
+a1[Student]
+a2[Faculty]
+0(0 \n System)
+
+a1 --Enter info --> 0 --Check with database--> d1 --Does login exist?--> 0
+a2 --Enter info --> 0
+0 --Success/Fail --> a1
+0 --Success/Fail --> a2
+a1 --Go to requirements page--> 0
+d2 --Send requirements--> 0
+a1 --Go to plan page--> 0 --Update database--> d4
+d4 --Read courses-->0
+0 --Push updates to database--> d2 --Send requirements to display--> 0 --Display to student--> a1
+a1 --Go to offerings page--> 0 --Request offerings--> d3 --Send offerings to display--> 0 --Display to student--> a1
+a2 --Submit update request--> 0 --Update in database-->d2
+a2 --Submit update request--> 0 --Update in database-->d3
+a2 --Confirm update-->0--Add program to database-->d1
+0 --Remove program from database-->d1
+a2 --Select student-->0
+a2 --Select new program--> 0
+0 --Request list of programs--> d2
+d2 --Return list of programs--> 0
+a1--Request What-If and input new requirements-->0--Fetch requirements from database-->d2--Send new requirements-->0--Display to student-->a1
+d2--Return current requirements-->0
+0--Request current requirements-->d2
+0--Request student info -->d1
+d1--Return student info -->0
+a2--Add program requirement-->0
+a2--Remove program requirement-->0
+0--Request new requirement info -->a2
+a2--Enter new requirement info -->0
+a2--Confirm new requirement-->0
+0--Request program to change-->a2--Select program to edit-->0
+0--Request list of programs-->d2--Return list of programs-->0
+a2--Confirm selection--> 0
+0--Request fields for adding requirement-->d2
+d2--Return fields for adding requirement-->0
+d2--Return list of students that fit search query-->0
+a2--Search students-->0
+a2--Delete program-->0
+0--Request list of fields-->d1
+```
 
 Level 1:
 ```mermaid
@@ -1301,8 +1352,8 @@ a2--Confirm selection--> 1
 1--Request fields for adding requirement-->d2
 d2--Return fields for adding requirement-->1
 d2--Return list of students that fit search query-->8
-f--Search students-->8
-f--Delete program-->8
+a2--Search students-->8
+a2--Delete program-->8
 8--Request list of fields-->d1
 ```
 
