@@ -2090,7 +2090,93 @@ flowchart TD
 ### 5.4 Data Model (Entity Relationship Diagram)
 > *Reference Chapter 5*
 
-> A set of data models and descriptions for the to‐be system. This may include data models of the as‐is system that will be replaced.
+There are four main types of data, users, plans, courses, and programs, however in reality these all become a total of 10 data types after normalization. Students can have plans, which contain courses. Faculty, courses, and programs all have departments. Courses can have prequisites. Note there are two relationships between a prerequisite course because each prerequisite is a course and such has one-to-one correspondence, but courses also have prerequisites, which is not one-to-one.
+
+```mermaid
+erDiagram
+
+   STUDENT {
+      Int id PK
+      String firstName
+      String lastName
+      String email
+      String password
+   }
+
+   STUDENT_PROGRAM {
+      Int id PK
+      Int programId FK
+      Int studentId FK
+   }
+
+   FACULTY {
+      Int id PK
+      String firstName
+      String lastName
+      Int deptId FK
+      String email
+      String password
+      Boolean canEditPrograms
+   }
+
+   DEPARTMENT {
+      Int id PK
+      String name
+   }
+
+   PROGRAM {
+      Int id PK
+      String name
+      Int deptId FK
+   }
+
+   REQUIRED_COURSE {
+      Int id PK
+      Int courseId FK
+      Int program FK
+   }
+
+   COURSE {
+      Int id PK
+      String name
+      Int courseRefNumber
+      String courseNumber
+      String semestersOffered
+      String instructor
+      Int deptId FK
+      Float numCredits
+   }
+
+   PREREQUISITE {
+      Int id PK
+      Int courseId FK
+      Int forCourseId FK
+   }
+
+   PLAN {
+      Int id PK
+      Int studentId FK
+   }
+
+   CHOSEN_COURSE {
+      Int id PK
+      Int courseId FK
+      Int planId FK
+   }
+
+   STUDENT ||--|{ STUDENT_PROGRAM: "is in"
+   STUDENT_PROGRAM }o--|| PROGRAM: "is program"
+   REQUIRED_COURSE }o--|| COURSE: "is course"
+   REQUIRED_COURSE }|--o{ PROGRAM: "is required for"
+   COURSE }|--|| DEPARTMENT: "is run by"
+   FACULTY }|--|| DEPARTMENT: "is part of"
+   PREREQUISITE }o--o{ COURSE: "is required for"
+   PREREQUISITE |o--|| COURSE: "is course"
+   PLAN ||--|| STUDENT: "is for"
+   PROGRAM }|--|| DEPARTMENT: "is part of"
+   PLAN ||--o{ CHOSEN_COURSE: "is in"
+   CHOSEN_COURSE }o--|| COURSE: "is course"
+```
 
 ### 5.4 Structure Chart Diagram
 ```mermaid
