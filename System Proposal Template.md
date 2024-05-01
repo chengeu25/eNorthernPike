@@ -32,7 +32,7 @@
 
 
 ## Executive Summary
-> A summary of all the essential information in the proposal so that a busy executive can read it quickly and decide what parts of the plan to read in more depth.
+The Enorthernpike Course Registration system was created to help students at University be at ease when registering for courses. Since many students have an issue with signing up for the wrong courses as system that allows a combination of eCarps, The View and Banner, this system offers students the convience of selecting courses which in the long run could save thousands of dollars in tuition fees. When looking at the system request it is clear that this solution would create value for both the students and the institution. From a technical standpoint it seems relatively straightforward, however when looking at the organization feasibility there seems to be a significant amount of obstacles. Despite these challenges, the system holds substantial promise due to its potential to enhance student experience and optimize academic planning. Resolving these obstacles will be crucial to gain full benefits of the Enorthernpike Course Registration system.
 
 ## 1. System Request
 
