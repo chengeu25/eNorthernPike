@@ -2090,7 +2090,7 @@ flowchart TD
 ### 5.4 Data Model (Entity Relationship Diagram)
 > *Reference Chapter 5*
 
-There are four main types of data, users, plans, courses, and programs, however in reality these all become a total of 11 data types after normalization. Students can have plans, which contain courses. Faculty, courses, and programs all have departments. Courses can have prequisites. Note there are two relationships between a prerequisite course because each prerequisite is a course and such has one-to-one correspondence, but courses also have prerequisites, which is not one-to-one. Also note that a user must be a student or faculty, but obviously not both, and as such student and faculty are listed as optional for a user.
+There are four main types of data, users, plans, courses, and programs, however in reality these all become a total of 11 data types after normalization. Students can have plans, which contain courses. Faculty, courses, and programs all have departments. Courses can have prequisites. Note there are two relationships between a prerequisite course because each prerequisite is a course and such has one-to-one correspondence except when a course is not a prerequisite for anything, but courses also have prerequisites, which is not one-to-one. Also note that a user must be a student or faculty, but obviously not both, and as such student and faculty are listed as optional for a user.
 
 ```mermaid
 erDiagram
