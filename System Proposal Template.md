@@ -1756,6 +1756,50 @@ flowchart LR
 1.1 --Send edit screen--> 1.4.3.3.2
 ```
 
+level 2, Process 3
+```mermaid
+flowchart LR
+
+
+    a1[Student]
+    d2[[Program Requirements Database]]
+    1(Request current requirements)
+    2(Return current requirements)
+    3(Display to student)
+
+    a1 -- 1 --> d2
+    d2 -- 2 --> 1
+    1 -- 2 --> 3
+    3 -- Display --> a1
+
+```
+
+level 3, Process 3:
+```mermaid
+flowchart LR
+    
+
+
+    a1[Student]
+    d2[[Program Requirements Database]]
+    1(Request current requirements)
+    2(Return current requirements)
+    3(Display to student)
+
+    a1 -- 1 --> d2
+    d2 -- 2 --> 1
+    1 -- 2 --> 3
+    3 -- Display --> a1
+
+    
+        d2 -->|Query for current requirements| 1
+        1 -->|Retrieve current requirements| d2
+        d2 -->|Send current requirements| 2
+    
+        2 -->|Display current requirements| 3
+    
+```
+
 level 2, Process 4:
 ```mermaid
 flowchart LR
@@ -1843,7 +1887,71 @@ d2 --Send new minor requirements-->5.1.2
 d2 --Send new major requirements-->5.2.1
 d2 --Send new minor requirements-->5.2.2
 ```
+Level 2, Process 7:
 
+```mermaid
+flowchart LR
+
+    a1[Student]
+    a2[Faculty]
+    d1[[Student/Faculty Login/Program Database]]
+    1(Check with database)
+
+    a1 -- Enter info --> 1
+    a2 -- Enter info --> 1
+    1 -- Does login exist? --> d1
+    d1 -- Yes/No --> 1
+    1 -- Success/Fail --> a1
+    1 -- Success/Fail --> a2
+
+    
+        1 -->|Check login existence| d1
+        d1 -->|Return result| 1
+
+```
+
+Level 3, Process 7:
+```mermaid
+flowchart LR
+    d1[[Student/Faculty Login/Program Database]]
+    1(Check with database)
+
+    1 -->|Check login existence| d1
+
+    
+        d1 -->|Query database| 1
+        1 -->|Retrieve login information| d1
+        d1 -->|Return login result| 1
+```
+Level 4, Process 7:
+```mermaid
+flowchart LR
+
+    
+        d1[[Student/Faculty Login/Program Database]]
+        d1 -->|Stores login and program information| a1
+        d1 -->|Accessible by both students and faculty| a2
+    
+   
+    
+        a1[Student]
+        a2[Faculty]
+        1(Check with database)
+
+        a1 --> Enter_info --> 1
+        a2 --> Enter_info --> 1
+        1 -->|Check login existence| d1
+
+        
+            d1 -->|Query database| 1
+            1 -->|Retrieve login information| d1
+            d1 -->|Return login result| 1
+        
+
+        1 -- Success/Fail --> a1
+        1 -- Success/Fail --> a2
+    
+```
 
 Level 2, Process 8:
 ```mermaid
