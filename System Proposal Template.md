@@ -124,12 +124,54 @@ There is a couple of issues in terms of organizational feasibilites, however the
 
 ```mermaid
 sequenceDiagram
-   actor J as John
-   participant S as System
+    participant Student
+    participant System
+    participant Database
 
-   S->>J: Enter user name and password
-   J-->>S: Types username and password
+    Student ->> System: Login
+    System ->> Database: Verify Credentials
+    activate Database
+    Database -->> System: Credentials Valid
+    deactivate Database
 
+    Student ->> System: Select Courses
+    System ->> Database: Retrieve Available Courses
+    activate Database
+    Database -->> System: Courses Retrieved
+    deactivate Database
+
+    
+    System ->> Database: Validate Courses
+    activate Database
+    Database -->> System: Validation Results
+    deactivate Database
+    
+
+    
+    Student ->> System: Confirm Registration
+    System ->> Database: Update Enrollment
+    activate Database
+    Database -->> System: Enrollment Updated
+        
+
+        
+    Student ->> System: Make Payment
+    System ->> PaymentGateway: Process Payment
+    activate PaymentGateway
+    PaymentGateway -->> System: Payment Successful
+    deactivate PaymentGateway
+        
+
+    System ->> Student: Registration Confirmation
+
+    System -->> Student: Conflict Notification
+    
+
+    Student ->> System: Logout
+    System ->> Database: Terminate Session
+    activate Database
+    Database -->> System: Session Terminated
+    deactivate Database
 ```
 
 ### 5.2 Use Cases
