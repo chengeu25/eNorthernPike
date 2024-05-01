@@ -2090,17 +2090,22 @@ flowchart TD
 ### 5.4 Data Model (Entity Relationship Diagram)
 > *Reference Chapter 5*
 
-There are four main types of data, users, plans, courses, and programs, however in reality these all become a total of 10 data types after normalization. Students can have plans, which contain courses. Faculty, courses, and programs all have departments. Courses can have prequisites. Note there are two relationships between a prerequisite course because each prerequisite is a course and such has one-to-one correspondence, but courses also have prerequisites, which is not one-to-one.
+There are four main types of data, users, plans, courses, and programs, however in reality these all become a total of 11 data types after normalization. Students can have plans, which contain courses. Faculty, courses, and programs all have departments. Courses can have prequisites. Note there are two relationships between a prerequisite course because each prerequisite is a course and such has one-to-one correspondence, but courses also have prerequisites, which is not one-to-one. Also note that a user must be a student or faculty, but obviously not both, and as such student and faculty are listed as optional for a user.
 
 ```mermaid
 erDiagram
 
-   STUDENT {
+   USER {
       Int id PK
       String firstName
       String lastName
       String email
       String password
+   }
+
+   STUDENT {
+      Int id PK
+      Int userId FK
    }
 
    STUDENT_PROGRAM {
@@ -2111,11 +2116,8 @@ erDiagram
 
    FACULTY {
       Int id PK
-      String firstName
-      String lastName
+      Int userId FK
       Int deptId FK
-      String email
-      String password
       Boolean canEditPrograms
    }
 
@@ -2176,6 +2178,8 @@ erDiagram
    PROGRAM }|--|| DEPARTMENT: "is part of"
    PLAN ||--o{ CHOSEN_COURSE: "is in"
    CHOSEN_COURSE }o--|| COURSE: "is course"
+   FACULTY |o--|| USER: "is"
+   STUDENT |o--|| USER: "is"
 ```
 
 ### 5.4 Structure Chart Diagram
