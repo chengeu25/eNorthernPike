@@ -48,27 +48,24 @@ The Enorthernpike Course Registration system was created to help students at Uni
 ```mermaid 
 gantt
     dateFormat  YYYY-MM-DD
-    title       YOUR PROJECT TITLE HERE
+    title       CRAYFISH
     excludes    weekends
     %% (`excludes` accepts specific dates in YYYY-MM-DD format, days of the week ("sunday") or "weekends", but not the word "weekdays".)
 
-    section Section A
-    Task A.1            :         des1, 2014-01-06,2014-01-08
-    Task A.2            :         des2, 2014-01-09, 3d
-    Task A.3            :         des3, after des2, 5d
-    Task A.4            :         des4, after des3, 5d
+    section Schedule
+    Create schedule template            :         des1, 2024-09-02,2024-09-08
+    Implement customizability            :         des2, 2024-09-09, 14d
+    Add error warnings            :         des3, after des2, 2d
 
-    section Section B
-    Task B.1            :         des5, 2014-01-07,2014-01-09
-    Task B.2            :         des6, 2014-01-10, 7d
-    Task B.3            :         des7, after des3, 2d
-    Task B.4            :         des8, after des7, 5d
+    section Course Information
+    Scrub The View            :         des4, 2024-09-09,2024-09-11
+    Create course database            :         des5, after des4, 5d
+    Connect courses to programs         :         des6, after des5, 6d
+    Create schedule-course interface            :         des7, after des6, 7d
 
-    section Section C
-    Task C.1            :         des9, 2014-01-06,2014-01-08
-    Task C.2            :         des10, 2014-01-09, 3d
-    Task C.3            :         des11, after des2, 5d
-    Task C.4            :         des12, after des3, 5d
+    section Security
+    Implement login system            :         des9, 2024-09-06,2024-09-15
+    Provide proper clearances            :         des10, 2024-09-09, 3d
 
 ```
 
