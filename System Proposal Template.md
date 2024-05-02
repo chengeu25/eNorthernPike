@@ -1,9 +1,6 @@
 # System Request Document
 
-> Matthew - Gantt Chart
-> Caleb - Data Model
-> Garret - Executive Summary/Sequence Diagram
-> Cheng Eu - Structure Chart
+> Group Members: Caleb Rice, Garret Van Dyke, Matthew Merlo, Cheng Eu Sun
 
 ## Table of Contents
 
