@@ -109,12 +109,21 @@ There is a couple of issues in terms of organizational feasibilites, however the
 ### 4.2 Nonfunctional Requirements:
 
 1. **Operational**
+  - The system should be Web-based and run on any browser.
 
-2. **Performance**
+3. **Performance**
+   - The system should complete requests in under 10 seconds.
+   - Any scrolling or screen movement should not
+   - The system should be able to support 2,000 simultaneous users.
 
-3. **Security**
+5. **Security**
+   - Student data shuold not be publicly available and should be properly protected.
+   - Only department chairs should be able to update courses.
+   - Only a student's advisor and department chair should be able to view student plans.
+   - Only registered students and faculty should be able to view course information.
 
-4. **Cultural and political**
+6. **Cultural and political**
+  - Student data should only be available to those with the authority to do so.
 
 ## 5. Logical Design
 
